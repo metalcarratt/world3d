@@ -1,5 +1,6 @@
 <template>
   <div id="app" >
+    <!--
     <button @click="keyLeft">Roll Left</button>
     <button @click="keyRight">Roll Right</button>
     <button @click="zoomIn">Zoom In</button>
@@ -14,7 +15,20 @@
     <button @click="playerBackward">Backward</button>
     <button @click="playerLeft">Left</button>
     <button @click="playerRight">Right</button>
+    -->
     <GameBoard :board="map" :palette="palette" ref="gameBoard" :player="player" :playerLocation="playerLocation" />
+    <table class="controls">
+      <tr>
+        <td @click="strafeLeft">◄ Q</td>
+        <td @click="playerForward">↑ W</td>
+        <td @click="strafeRight">► E</td>
+      </tr>
+      <tr>
+        <td @click="playerLeft">← A</td>
+        <td @click="playerBackward">↓ S</td>
+        <td @click="playerRight">→ D</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -80,6 +94,12 @@ export default {
           this.playerRight();
           // this.keyLeft();
           // this.keyLeft();
+          break;
+        case 113:
+          this.strafeLeft();
+          break;
+        case 101:
+          this.strafeRight();
           break;
         case 43:
           this.zoomIn();
@@ -182,6 +202,38 @@ export default {
           this.playerLocation.facing = 'down';
           break;
       }
+    },
+    strafeLeft() {
+      switch (this.playerLocation.facing) {
+        case 'up':
+          this.playerLocation.x = this.playerLocation.x - 1;
+          break;
+        case 'left':
+          this.playerLocation.y = this.playerLocation.y - 1;
+          break;
+        case 'down':
+          this.playerLocation.x = this.playerLocation.x + 1;
+          break;
+        case 'right':
+          this.playerLocation.y = this.playerLocation.y + 1;
+          break;
+      }
+    },
+    strafeRight() {
+      switch (this.playerLocation.facing) {
+        case 'up':
+          this.playerLocation.x = this.playerLocation.x + 1;
+          break;
+        case 'left':
+          this.playerLocation.y = this.playerLocation.y + 1;
+          break;
+        case 'down':
+          this.playerLocation.x = this.playerLocation.x - 1;
+          break;
+        case 'right':
+          this.playerLocation.y = this.playerLocation.y - 1;
+          break;
+      }
     }
   }
 }
@@ -191,5 +243,22 @@ export default {
 body {
 	margin: 0;
 	background-color: white;
+}
+
+table.controls {
+  position: absolute;
+  top: 20px;
+}
+
+table.controls td {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+table.controls td:hover {
+  background-color: #aaa;
+  cursor: pointer;
 }
 </style>
