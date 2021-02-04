@@ -255,10 +255,18 @@ table.controls td {
   border: 1px solid black;
   border-radius: 10px;
   padding: 5px;
+  user-select: none;
 }
 
 table.controls td:hover {
   background-color: #aaa;
   cursor: pointer;
+}
+
+@media (hover: none) {
+  table.controls td {
+    width: 50px;
+    height: 50px;
+  }
 }
 </style>
