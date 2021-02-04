@@ -2,13 +2,30 @@
     <div id="gameBoard">
         Camera: x={{camera.position.x}} y={{camera.position.y}} z={{camera.position.z}} + rotation: x={{ camera.rotation.x }} y={{ camera.rotation.y}} z={{ camera.rotation.z }}
         Scene rotation: x={{ group.rotation.x }} y={{ group.rotation.y }} z={{ group.rotation.z }}
-        Group: x={{ group.position.x }} y={{ group.position.y }}
-        Player: x={{ playerCube.position.x }} y={{ playerCube.position.y }} facing={{ playerLocation.facing }}
+        
+        
+        Facing=<select v-model="cface">
+                <option>N</option>
+                <option>S</option>
+                <option>E</option>
+                <option>W</option>
+                <option>NE</option>
+                <option>NW</option>
+                <option>SE</option>
+                <option>SW</option>
+               </select>
     </div>
 </template>
 
 <script>
 import * as THREE from 'three';
+import RotateCamera from './rotateCamera.js';
+
+const UP = 'up';
+// const DOWN = 'down';
+// const LEFT = 'left';
+// const RIGHT = 'right';
+
 const rotations = [
     0,
     0.25 * Math.PI,
@@ -34,7 +51,9 @@ export default {
             midx: 0,
             midy: 0,
             Y_AXIS: null,
-            camera_pivot: null
+            camera_pivot: null,
+            playerOldFacing: UP,
+            cface: 'N'
         }
     },
     mounted() {
@@ -48,6 +67,9 @@ export default {
                 this.positionPlayer();
             },
             deep: true
+        },
+        cface() {
+            RotateCamera.runInOrder([this.cface], this.playerCube, this.camera);            
         }
     },
     methods: {
@@ -120,44 +142,52 @@ export default {
             // const yoffset = this.playerCube.position.y;
             this.group.position.y = 0 - this.playerCube.position.y;
             
-            window.console.log("rotation " + this.playerCube.rotation.z + ", facing " + this.playerLocation.facing);
-            switch (this.playerLocation.facing) {
-                case 'up':
-                    this.playerCube.rotation.z = 0;
-                    this.camera.position.set(0,-3,4);
+            // window.console.log("rotation " + playerCube.rotation.z + ", facing " + playerLocation.facing);
+            RotateCamera.rotate({
+                playerLocation: this.playerLocation,
+                playerOldFacing: this.playerOldFacing,
+                playerCube: this.playerCube,
+                camera: this.camera
+            })
+            // if (this.playerLocation.facing !== this.playerOldFacing) {
+            //     switch(this.playerOldFacing) {
+            //         case UP:
+            //             switch (this.playerLocation.facing) {
+            //                 // case LEFT:
 
-                    this.camera.rotation.x=Math.PI * 0.2;
-                    this.camera.rotation.y=0;
-                    this.camera.rotation.z=0;
-                    break;
-                case 'left':
-                    this.playerCube.rotation.z = 1.6;
+            //                 case RIGHT:
+            //                     setTimeout(() => {
+            //                         RotateCamera.faceNorthEast(this.playerCube, this.camera)
+            //                         setTimeout(() => RotateCamera.faceEast(this.playerCube, this.camera), 400);
+            //                     }, 400);
+            //             }   
+            //             break;
+            //         case DOWN:
+            //         case LEFT:
+            //         case RIGHT:
+            //     }
+            // } else {
+            //     switch (this.playerLocation.facing) {
+            //         case UP:
+            //             RotateCamera.faceNorth(this.playerCube, this.camera);
+            //             break;
+            //         case LEFT:
+            //             RotateCamera.faceNorthEast(this.playerCube, this.camera);
+            //             // faceWest(playerCube, camera);
+            //             break;
+            //         case RIGHT:
+            //             RotateCamera.faceEast(this.playerCube, this.camera);
+            //             break;
+            //         case DOWN:
+            //             RotateCamera.faceSouth(this.playerCube, this.camera);
+            //             break;
+            //     }
+            // }
 
-                    this.camera.position.set(3,0,4);
-                    this.camera.rotation.x=0;
-                    this.camera.rotation.y=Math.PI * 0.2;
-                    this.camera.rotation.z=Math.PI / 2;
-                    break;
-                case 'right':
-                    this.playerCube.rotation.z = -1.6;
-
-                    this.camera.position.set(-3,0,4);
-                    this.camera.rotation.x=0;
-                    this.camera.rotation.y=Math.PI * 0.2 * -1;
-                    this.camera.rotation.z=Math.PI / 2 * -1;
-                    break;
-                case 'down':
-                    this.playerCube.rotation.z = 3.2;
-                    this.camera.position.set(0,3,4);
-
-                    this.camera.rotation.x=Math.PI * 0.2 * -1;
-                    this.camera.rotation.y=0;
-                    this.camera.rotation.z=-Math.PI;
-                    break;
-                    
-            }
+            
             this.animate();
-            window.console.log("rotation " + this.group.rotation.z);
+            this.playerOldFacing = this.playerLocation.facing;
+            
         },
         // rotateLeft() {
         //     this.rotationIndex += 1;
