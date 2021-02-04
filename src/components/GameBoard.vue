@@ -3,7 +3,10 @@
         Camera: x={{camera.position.x}} y={{camera.position.y}} z={{camera.position.z}} + rotation: x={{ camera.rotation.x }} y={{ camera.rotation.y}} z={{ camera.rotation.z }}
         Scene rotation: x={{ group.rotation.x }} y={{ group.rotation.y }} z={{ group.rotation.z }}
         
-        
+        X<input type="text" v-model="camera.rotation.x"/>
+        Y<input type="text" v-model="camera.rotation.y"/>
+        Z<input type="text" v-model="camera.rotation.z"/>
+
         Facing=<select v-model="cface">
                 <option>N</option>
                 <option>S</option>

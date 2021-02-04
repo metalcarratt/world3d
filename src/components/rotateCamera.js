@@ -93,6 +93,6 @@ export default {
             if (facings.length > 0) {
                 this.runInOrder(facings, playerCube, camera);
             }
-        }, 100);
+        }, 50);
     }
 }
