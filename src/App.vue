@@ -1,13 +1,21 @@
 <template>
   <div id="app" >
-    <GameBoard :board="map" :palette="palette" ref="gameBoard" :player="player" :playerLocation="playerLocation" />
-    <WalkControls :playerLocation="playerLocation" />
+    <GameBoard
+      :board="map"
+      :palette="palette"
+      ref="gameBoard"
+      :player="player"
+      :playerLocation="playerLocation"
+      :selectorLocation="selectorLocation"
+    />
+    <WalkControls :playerLocation="playerLocation" v-show="showWalkControls" />
+    <EditControls :selectorLocation="selectorLocation" :playerLocation="playerLocation" v-show="showEditControls" />
+    <ControlMode />
 
   </div>
 </template>
 
 <script>
-// import * as THREE from 'three';
 import Water from '@/models/water.js';
 import Grass from '@/models/grass.js';
 import Rock from '@/models/rock.js';
@@ -15,10 +23,13 @@ import Tree from '@/models/tree.js';
 import Ghost from '@/models/ghost.js';
 import GameBoard from '@/components/GameBoard.vue';
 import WalkControls from '@/components/WalkControls.vue';
+import EditControls from '@/components/edit/EditControls.vue';
+import ControlMode from '@/components/modes/ControlMode.vue';
+import Modes from "@/components/modes/modes.js";
 
 export default {
   name: 'App',
-  components: { GameBoard, WalkControls },
+  components: { GameBoard, WalkControls, EditControls, ControlMode },
   data() {
     return {
       map: [
@@ -36,12 +47,21 @@ export default {
       },
       playerLocation: {
         x: 1, y: 1, z: 0, facing: 'up'
+      },
+      selectorLocation: {
+        x: 1, y: 2, z: 0.4
       }
     }
   },
   computed: {
     player() {
       return Ghost;
+    },
+    showWalkControls() {
+      return Modes.isWalking();
+    },
+    showEditControls() {
+      return Modes.isEditing();
     }
   }
 }

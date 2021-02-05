@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import Modes from "@/components/modes/modes.js";
+
 export default {
     props: ['playerLocation'],
     mounted() {
@@ -21,28 +23,30 @@ export default {
     },
     methods: {
         keyboard(e) {
-        console.log(e.keyCode);
-            switch (e.keyCode) {
-                case 87: // W
-                case 119:
-                    this.playerForward();
-                    break;
-                case 83: // S
-                case 115:
-                    this.playerBackward();
-                    break;
-                case 97: // A
-                    this.playerLeft();
-                    break;
-                case 100: // D
-                    this.playerRight();
-                    break;
-                case 113: // Q
-                    this.strafeLeft();
-                    break;
-                case 101: // E
-                    this.strafeRight();
-                    break;
+            if (Modes.isWalking()) {
+                console.log(e.keyCode);
+                switch (e.keyCode) {
+                    case 87: // W
+                    case 119:
+                        this.playerForward();
+                        break;
+                    case 83: // S
+                    case 115:
+                        this.playerBackward();
+                        break;
+                    case 97: // A
+                        this.playerLeft();
+                        break;
+                    case 100: // D
+                        this.playerRight();
+                        break;
+                    case 113: // Q
+                        this.strafeLeft();
+                        break;
+                    case 101: // E
+                        this.strafeRight();
+                        break;
+                }
             }
         },
         playerForward() {

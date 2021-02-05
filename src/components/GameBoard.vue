@@ -23,11 +23,9 @@
 <script>
 import * as THREE from 'three';
 import RotateCamera from './rotateCamera.js';
+import buildSelector from '@/models/selector.js';
 
 const UP = 'up';
-// const DOWN = 'down';
-// const LEFT = 'left';
-// const RIGHT = 'right';
 
 const rotations = [
     0,
@@ -39,8 +37,17 @@ const rotations = [
     1.5 * Math.PI,
     1.75 * Math.PI
 ]
+
+function addLight(scene) {
+  const color = 0xFFFFFF;
+  const intensity = 1;
+  const light = new THREE.DirectionalLight(color, intensity);
+  light.position.set(-1, 2, 8);
+  scene.add(light);
+}
+
 export default {
-    props: ['board', 'palette', 'player', 'playerLocation'],
+    props: ['board', 'palette', 'player', 'playerLocation', 'selectorLocation'],
     data() {
         return {
             renderer: null,
@@ -56,7 +63,8 @@ export default {
             Y_AXIS: null,
             camera_pivot: null,
             playerOldFacing: UP,
-            cface: 'N'
+            cface: 'N',
+            selector: null
         }
     },
     mounted() {
@@ -68,6 +76,12 @@ export default {
         playerLocation: {
             handler: function() {
                 this.positionPlayer();
+            },
+            deep: true
+        },
+        selectorLocation: {
+            handler: function() {
+                this.positionSelector();
             },
             deep: true
         },
@@ -91,16 +105,13 @@ export default {
                 const placeCanvas = document.getElementById("gameBoard");
                 placeCanvas.appendChild(this.renderer.domElement);
                 window.addEventListener('resize', this.windowResize);
-                // window.addEventListener('mousemove', this.mouseMove);
             });
-            // this.camera.position.z = 4;
-            // this.camera.position.y = -3;
-            // this.camera.lookAt(0,0,0);
 
             this.camera_pivot = new THREE.Object3D()
             this.Y_AXIS = new THREE.Vector3( 0, 1, 1 );
             this.scene.add( this.camera_pivot );
             this.camera_pivot.add( this.camera );
+            addLight(this.scene);
         },
         initBoard() {
             this.group = new THREE.Group();
@@ -108,7 +119,6 @@ export default {
             const height = this.board[0].length;
             this.midx = Math.floor(width/2);
             this.midy = Math.floor(height/2);
-            // window.console.log("width: " + width + ", height: " + height + ", midx: " + midx + ", midy: " + midy);
             for (var x = 0; x < width; x++) {
                 for (var y = 0; y < height; y++) {
                     let cube = null;
@@ -126,9 +136,12 @@ export default {
             this.positionPlayer();
             this.group.add(this.playerCube);
 
+            this.selector = buildSelector.mesh();
+            this.positionSelector();
+            this.group.add(this.selector);
+
 
             this.scene.add(this.group);
-            // this.group.rotation.x -= 0.8;
             this.group.rotation.z = rotations[this.rotationIndex];
         },
         windowResize() {
@@ -140,100 +153,26 @@ export default {
             this.playerCube.position.y = this.playerLocation.y - this.midy;
             this.playerCube.position.z = this.playerLocation.z + 0.7;
 
-            // const xoffset = this.playerCube.position.x;
             this.group.position.x = 0 - this.playerCube.position.x;
-            // const yoffset = this.playerCube.position.y;
             this.group.position.y = 0 - this.playerCube.position.y;
             
-            // window.console.log("rotation " + playerCube.rotation.z + ", facing " + playerLocation.facing);
             RotateCamera.rotate({
                 playerLocation: this.playerLocation,
                 playerOldFacing: this.playerOldFacing,
                 playerCube: this.playerCube,
                 camera: this.camera
             })
-            // if (this.playerLocation.facing !== this.playerOldFacing) {
-            //     switch(this.playerOldFacing) {
-            //         case UP:
-            //             switch (this.playerLocation.facing) {
-            //                 // case LEFT:
-
-            //                 case RIGHT:
-            //                     setTimeout(() => {
-            //                         RotateCamera.faceNorthEast(this.playerCube, this.camera)
-            //                         setTimeout(() => RotateCamera.faceEast(this.playerCube, this.camera), 400);
-            //                     }, 400);
-            //             }   
-            //             break;
-            //         case DOWN:
-            //         case LEFT:
-            //         case RIGHT:
-            //     }
-            // } else {
-            //     switch (this.playerLocation.facing) {
-            //         case UP:
-            //             RotateCamera.faceNorth(this.playerCube, this.camera);
-            //             break;
-            //         case LEFT:
-            //             RotateCamera.faceNorthEast(this.playerCube, this.camera);
-            //             // faceWest(playerCube, camera);
-            //             break;
-            //         case RIGHT:
-            //             RotateCamera.faceEast(this.playerCube, this.camera);
-            //             break;
-            //         case DOWN:
-            //             RotateCamera.faceSouth(this.playerCube, this.camera);
-            //             break;
-            //     }
-            // }
-
             
             this.animate();
             this.playerOldFacing = this.playerLocation.facing;
             
         },
-        // rotateLeft() {
-        //     this.rotationIndex += 1;
-        //     if (this.rotationIndex > 7) {
-        //         this.rotationIndex = 0;
-        //     }
-        //     this.group.rotation.z = rotations[this.rotationIndex];
-        //     this.animate();
-        // },
-        // rotateRight() {
-        //     this.rotationIndex -= 1;
-        //     if (this.rotationIndex < 0) {
-        //         this.rotationIndex = 7;
-        //     }
-        //     this.group.rotation.z = rotations[this.rotationIndex];
-        //     this.animate();
-        // },
-        // zoomIn() {
-        //     this.camera.position.z -= 1;
-        //     this.animate();
-        // },
-        // zoomOut() {
-        //     this.camera.position.z += 1;
-        //     this.animate();
-        // },
-        // forward() {
-        //     this.group.position.y -= 1;
-        //     this.camera.position.z -= 1;
-        //     this.animate();
-        // },
-        // backward() {
-        //     this.group.position.y += 1;
-        //     this.camera.position.z += 1;
-        //     this.animate();
-        // },
-        // left() {
-        //     this.camera.position.x -= 1;
-        //     this.animate();
-        // },
-        // right() {
-        //     this.camera.position.x += 1;
-        //     this.animate();
-        // }
+        positionSelector() {
+            this.selector.position.x = this.selectorLocation.x - this.midx;
+            this.selector.position.y = this.selectorLocation.y - this.midy;
+            this.selector.position.z = this.selectorLocation.z;
+            this.animate();
+        }
     }
 }
 </script>
