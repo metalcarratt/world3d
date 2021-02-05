@@ -18,9 +18,11 @@ export default {
         },
         changeModeToWalking() {
             Modes.setWalking();
+            this.$emit('changeMode');
         },
         changeModeToEdit() {
             Modes.setEditing();
+            this.$emit('changeMode');
         }
     }
 }

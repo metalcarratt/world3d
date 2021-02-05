@@ -171,6 +171,7 @@ export default {
             this.selector.position.x = this.selectorLocation.x - this.midx;
             this.selector.position.y = this.selectorLocation.y - this.midy;
             this.selector.position.z = this.selectorLocation.z;
+            this.selector.visible = this.selectorLocation.show;
             this.animate();
         }
     }

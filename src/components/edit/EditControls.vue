@@ -1,14 +1,14 @@
 <template>
     <table class="controls">
       <tr>
-        <td></td>
-        <td @click="playerForward">↑ W</td>
-        <td></td>
+        <td class="empty"></td>
+        <td @click="forward">↑ W</td>
+        <td class="empty"></td>
       </tr>
       <tr>
-        <td @click="playerLeft">← A</td>
-        <td @click="playerBackward">↓ S</td>
-        <td @click="playerRight">→ D</td>
+        <td @click="left">← A</td>
+        <td @click="backward">↓ S</td>
+        <td @click="right">→ D</td>
       </tr>
     </table>
 </template>
@@ -123,6 +123,11 @@ table.controls td {
   border-radius: 10px;
   padding: 5px;
   user-select: none;
+}
+
+table.controls td.empty {
+    background-color: #00000000;
+    border: none;
 }
 
 table.controls td:hover {

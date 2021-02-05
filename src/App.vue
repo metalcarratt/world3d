@@ -10,7 +10,7 @@
     />
     <WalkControls :playerLocation="playerLocation" v-show="showWalkControls" />
     <EditControls :selectorLocation="selectorLocation" :playerLocation="playerLocation" v-show="showEditControls" />
-    <ControlMode />
+    <ControlMode @changeMode="changeMode" />
 
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
         x: 1, y: 1, z: 0, facing: 'up'
       },
       selectorLocation: {
-        x: 1, y: 2, z: 0.4
+        x: 1, y: 2, z: 0.4, show: false
       }
     }
   },
@@ -62,6 +62,15 @@ export default {
     },
     showEditControls() {
       return Modes.isEditing();
+    }
+  },
+  methods: {
+    changeMode() {
+      this.selectorLocation.show = Modes.isEditing();
+      if (Modes.isEditing()) {
+        this.selectorLocation.x = this.playerLocation.x;
+        this.selectorLocation.y = this.playerLocation.y;
+      }
     }
   }
 }
