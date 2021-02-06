@@ -64,7 +64,8 @@ export default {
             camera_pivot: null,
             playerOldFacing: UP,
             cface: 'N',
-            selector: null
+            selector: null,
+            allCubes: []
         }
     },
     mounted() {
@@ -73,6 +74,13 @@ export default {
         this.animate();
     },
     watch: {
+        board: {
+            handler: function() {
+                window.console.log("board changed");
+                this.drawBoard();
+            },
+            deep: true
+        },
         playerLocation: {
             handler: function() {
                 this.positionPlayer();
@@ -108,7 +116,6 @@ export default {
             });
 
             this.camera_pivot = new THREE.Object3D()
-            this.Y_AXIS = new THREE.Vector3( 0, 1, 1 );
             this.scene.add( this.camera_pivot );
             this.camera_pivot.add( this.camera );
             addLight(this.scene);
@@ -119,18 +126,8 @@ export default {
             const height = this.board[0].length;
             this.midx = Math.floor(width/2);
             this.midy = Math.floor(height/2);
-            for (var x = 0; x < width; x++) {
-                for (var y = 0; y < height; y++) {
-                    let cube = null;
-                    const key = this.board[x][y];
-                    cube = this.palette[key].mesh();
-                    
-                    cube.position.x = x - this.midx;
-                    cube.position.y = y - this.midy;
-                    this.group.add(cube);
-                    
-                }
-            }
+
+            this.drawBoard();
 
             this.playerCube = this.player.mesh();
             this.positionPlayer();
@@ -140,9 +137,28 @@ export default {
             this.positionSelector();
             this.group.add(this.selector);
 
-
             this.scene.add(this.group);
             this.group.rotation.z = rotations[this.rotationIndex];
+        },
+        drawBoard() {
+            for (let cube of this.allCubes) {
+                this.group.remove(cube);
+            }
+            this.allCubes = [];
+            const width = this.board.length;
+            const height = this.board[0].length;
+            for (var x = 0; x < width; x++) {
+                for (var y = 0; y < height; y++) {
+                    let cube = null;
+                    const key = this.board[x][y];
+                    cube = this.palette[key].mesh();
+                    
+                    cube.position.x = x - this.midx;
+                    cube.position.y = y - this.midy;
+                    this.group.add(cube);
+                    this.allCubes.push(cube);
+                }
+            }
         },
         windowResize() {
             this.renderer.setSize(window.innerWidth, window.innerHeight);

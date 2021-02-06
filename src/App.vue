@@ -9,7 +9,7 @@
       :selectorLocation="selectorLocation"
     />
     <WalkControls :playerLocation="playerLocation" v-show="showWalkControls" />
-    <EditControls :selectorLocation="selectorLocation" :playerLocation="playerLocation" v-show="showEditControls" />
+    <EditControls :selectorLocation="selectorLocation" :playerLocation="playerLocation" v-show="showEditControls" @updateBoard="updateBoard" />
     <ControlMode @changeMode="changeMode" />
 
   </div>
@@ -37,7 +37,10 @@ export default {
         [0,1,1,1,1,1,0],
         [0,1,2,3,2,1,0],
         [0,1,1,2,1,0,0],
-        [0,0,0,0,0,0,0]
+        [0,0,0,1,1,2,0],
+        [0,0,1,1,2,0,0],
+        [0,3,1,1,0,0,0],
+        [0,0,0,0,0,0,0],
       ],
       palette: {
         0: Water,
@@ -71,6 +74,24 @@ export default {
         this.selectorLocation.x = this.playerLocation.x;
         this.selectorLocation.y = this.playerLocation.y;
       }
+    },
+    updateBoard({x, y, brush}) {
+      window.console.log("updateBoard, x=" + x + ", y=" + y + ", brush=" + brush);
+      switch (brush) {
+        case "water":
+          this.map[x][y] = 0;
+          break;
+        case "grass":
+          this.map[x][y] = 1;
+          break;
+        case "rock":
+          this.map[x][y] = 2;
+          break;
+        case "tree":
+          this.map[x][y] = 3;
+          break;
+      }
+      this.map = [].concat(this.map);
     }
   }
 }

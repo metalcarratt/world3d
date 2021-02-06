@@ -1,20 +1,26 @@
 <template>
     <table class="controls">
-      <tr>
-        <td class="empty"></td>
-        <td @click="forward">↑ W</td>
-        <td class="empty"></td>
-      </tr>
-      <tr>
-        <td @click="left">← A</td>
-        <td @click="backward">↓ S</td>
-        <td @click="right">→ D</td>
-      </tr>
+        <tr>
+            <td class="empty"></td>
+            <td @click="forward">↑ W</td>
+            <td class="empty"></td>
+        </tr>
+        <tr>
+            <td @click="left">← A</td>
+            <td @click="backward">↓ S</td>
+            <td @click="right">→ D</td>
+        </tr>
+        <tr>
+            <td class="empty"></td>
+            <td @click="place">space place</td>
+            <td class="empty"></td>
+        </tr>
     </table>
 </template>
 
 <script>
 import Modes from "@/components/modes/modes.js";
+import brush from "@/components/edit/brush.js";
 
 export default {
     props: ['selectorLocation', 'playerLocation'],
@@ -40,7 +46,13 @@ export default {
                     case 100: // D
                         this.right();
                         break;
+                    case 32: // space
+                        this.place();
+                        break;
+                    default:
+                        return;
                 }
+                e.preventDefault();
             }
         },
         forward() {
@@ -106,6 +118,14 @@ export default {
                     this.selectorLocation.y = this.selectorLocation.y - 1;
                     break;
             }
+        },
+        place() {
+            window.console.log("place");
+            this.$emit('updateBoard', {
+                x: this.selectorLocation.x,
+                y: this.selectorLocation.y,
+                brush: brush.getBrush()
+            });
         }
     }
 }
