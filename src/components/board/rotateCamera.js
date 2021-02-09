@@ -56,39 +56,39 @@ export default {
             const facing = facings.shift();
             switch (facing) {
                 case N:
-                    window.console.log("Facing N");
+                    // window.console.log("Facing N");
                     FaceCamera.faceNorth(playerCube, camera);
                     break;
                 case S:
-                    window.console.log("Facing S");
+                    // window.console.log("Facing S");
                     FaceCamera.faceSouth(playerCube, camera);
                     break;
                 case E:
-                    window.console.log("Facing E");
+                    // window.console.log("Facing E");
                     FaceCamera.faceEast(playerCube, camera);
                     break;
                 case W:
-                    window.console.log("Facing W");
+                    // window.console.log("Facing W");
                     FaceCamera.faceWest(playerCube, camera);
                     break;
                 case NE:
-                    window.console.log("Facing NE");
+                    // window.console.log("Facing NE");
                     FaceCamera.faceNorthEast(playerCube, camera);
                     break;
                 case NW:
-                    window.console.log("Facing NW");
+                    // window.console.log("Facing NW");
                     FaceCamera.faceNorthWest(playerCube, camera);
                     break;
                 case SE:
-                    window.console.log("Facing SE");
+                    // window.console.log("Facing SE");
                     FaceCamera.faceSouthEast(playerCube, camera);
                     break;
                 case SW:
-                    window.console.log("Facing SW");
+                    // window.console.log("Facing SW");
                     FaceCamera.faceSouthWest(playerCube, camera);
                     break;
                 default:
-                    window.console.log("Facing O");
+                    // window.console.log("Facing O");
             }
             if (facings.length > 0) {
                 this.runInOrder(facings, playerCube, camera);

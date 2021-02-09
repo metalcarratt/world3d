@@ -24,7 +24,7 @@ export default {
     methods: {
         keyboard(e) {
             if (Modes.isWalking()) {
-                console.log(e.keyCode);
+                // console.log(e.keyCode);
                 switch (e.keyCode) {
                     case 87: // W
                     case 119:

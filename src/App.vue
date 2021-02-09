@@ -1,7 +1,6 @@
 <template>
   <div id="app" >
     <GameBoard
-      :board="map"
       :palette="palette"
       ref="gameBoard"
       :player="player"
@@ -21,27 +20,18 @@ import Grass from '@/models/grass.js';
 import Rock from '@/models/rock.js';
 import Tree from '@/models/tree.js';
 import Ghost from '@/models/ghost.js';
-import GameBoard from '@/components/GameBoard.vue';
+import GameBoard from '@/components/board/GameBoard.vue';
 import WalkControls from '@/components/WalkControls.vue';
 import EditControls from '@/components/edit/EditControls.vue';
 import ControlMode from '@/components/modes/ControlMode.vue';
 import Modes from "@/components/modes/modes.js";
+import board from '@/components/board/board.js';
 
 export default {
   name: 'App',
   components: { GameBoard, WalkControls, EditControls, ControlMode },
   data() {
     return {
-      map: [
-        [0,0,0,0,0,0,0],
-        [0,1,1,1,1,1,0],
-        [0,1,2,3,2,1,0],
-        [0,1,1,2,1,0,0],
-        [0,0,0,1,1,2,0],
-        [0,0,1,1,2,0,0],
-        [0,3,1,1,0,0,0],
-        [0,0,0,0,0,0,0],
-      ],
       palette: {
         0: Water,
         1: Grass,
@@ -76,22 +66,7 @@ export default {
       }
     },
     updateBoard({x, y, brush}) {
-      window.console.log("updateBoard, x=" + x + ", y=" + y + ", brush=" + brush);
-      switch (brush) {
-        case "water":
-          this.map[x][y] = 0;
-          break;
-        case "grass":
-          this.map[x][y] = 1;
-          break;
-        case "rock":
-          this.map[x][y] = 2;
-          break;
-        case "tree":
-          this.map[x][y] = 3;
-          break;
-      }
-      this.map = [].concat(this.map);
+      board.updateBoard({x, y, brush, palette: this.palette});
     }
   }
 }
