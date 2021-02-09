@@ -15,9 +15,9 @@
 
 <script>
 import Modes from "@/components/modes/modes.js";
+import playerUtil from '@/components/board/player.js';
 
 export default {
-    props: ['playerLocation'],
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -50,99 +50,105 @@ export default {
             }
         },
         playerForward() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                    this.playerLocation.y = this.playerLocation.y + 1;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y + 1});
                     break;
                 case 'left':
-                    this.playerLocation.x = this.playerLocation.x - 1;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x - 1});
                     break;
                 case 'down':
-                    this.playerLocation.y = this.playerLocation.y - 1;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y - 1});
                     break;
                 case 'right':
-                    this.playerLocation.x = this.playerLocation.x + 1;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x + 1});
                     break;
             }
         },
         playerBackward() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                this.playerLocation.y = this.playerLocation.y - 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y - 1});
+                    break;
                 case 'left':
-                this.playerLocation.x = this.playerLocation.x + 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x + 1});
+                    break;
                 case 'down':
-                this.playerLocation.y = this.playerLocation.y + 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y + 1});
+                    break;
                 case 'right':
-                this.playerLocation.x = this.playerLocation.x - 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x - 1});
+                    break;
             }
         },
         playerLeft() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                this.playerLocation.facing = 'left';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'left'});
+                    break;
                 case 'left':
-                this.playerLocation.facing = 'down';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'down'});
+                    break;
                 case 'down':
-                this.playerLocation.facing = 'right';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'right'});
+                    break;
                 case 'right':
-                this.playerLocation.facing = 'up';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'up'});
+                    break;
             }
         },
         playerRight() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                this.playerLocation.facing = 'right';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'right'});
+                    break;
                 case 'left':
-                this.playerLocation.facing = 'up';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'up'});
+                    break;
                 case 'down':
-                this.playerLocation.facing = 'left';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'left'});
+                    break;
                 case 'right':
-                this.playerLocation.facing = 'down';
-                break;
+                    playerUtil.updatePlayerLocation({facing: 'down'});
+                    break;
             }
         },
         strafeLeft() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                this.playerLocation.x = this.playerLocation.x - 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x - 1});
+                    break;
                 case 'left':
-                this.playerLocation.y = this.playerLocation.y - 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y - 1});
+                    break;
                 case 'down':
-                this.playerLocation.x = this.playerLocation.x + 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x + 1});
+                    break;
                 case 'right':
-                this.playerLocation.y = this.playerLocation.y + 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y + 1});
+                    break;
             }
         },
         strafeRight() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
-                this.playerLocation.x = this.playerLocation.x + 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x + 1});
+                    break;
                 case 'left':
-                this.playerLocation.y = this.playerLocation.y + 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y + 1});
+                    break;
                 case 'down':
-                this.playerLocation.x = this.playerLocation.x - 1;
-                break;
+                    playerUtil.updatePlayerLocation({x: playerLocation.x - 1});
+                    break;
                 case 'right':
-                this.playerLocation.y = this.playerLocation.y - 1;
-                break;
+                    playerUtil.updatePlayerLocation({y: playerLocation.y - 1});
+                    break;
             }
         }
     }

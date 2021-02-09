@@ -63,7 +63,7 @@ export default {
         },
         playerLocation: {
             handler: function() {
-                playerUtil.positionPlayer(this.playerLocation, this.camera);
+                playerUtil.positionPlayer(this.camera);
             },
             deep: true
         },
@@ -98,7 +98,7 @@ export default {
             addLight(this.scene);
         },
         initBoard() {
-            board.init(this.player, this.scene, this.playerLocation, this.camera, this.selectorLocation, this.palette);
+            board.init(this.player, this.scene, this.camera, this.selectorLocation, this.palette);
         },
         drawBoard() {
             board.draw(this.palette);

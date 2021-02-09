@@ -78,7 +78,7 @@ const draw = function(palette) {
     }
 }
 
-const init = function(player, scene, playerLocation, camera, selectorLocation, palette) {
+const init = function(player, scene, camera, selectorLocation, palette) {
     const width = map.length;
     const height = map[0].length;
     midx = Math.floor(width/2);
@@ -87,7 +87,7 @@ const init = function(player, scene, playerLocation, camera, selectorLocation, p
 
     draw(palette);
 
-    playerUtil.initPlayer(player, playerLocation, camera);
+    playerUtil.initPlayer(player, camera);
 
     selector = buildSelector.mesh();
     positionSelector(selectorLocation);

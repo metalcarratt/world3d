@@ -5,14 +5,23 @@ const UP = 'up';
 
 let playerCube = null;
 let playerOldFacing = UP;
+let myCamera = null;
 
-const initPlayer = function(player, playerLocation, camera) {
+const playerLocation = {
+    x: 1,
+    y: 1,
+    z: 0,
+    facing: 'up'
+}
+
+const initPlayer = function(player, camera) {
+    myCamera = camera;
     playerCube = player.mesh();
-    positionPlayer(playerLocation, camera);
+    positionPlayer();
     board.group.add(playerCube);
 }
 
-const positionPlayer = function(playerLocation, camera) {
+const positionPlayer = function() {
     playerCube.position.x = playerLocation.x - board.getMid().midx;
     playerCube.position.y = playerLocation.y - board.getMid().midy;
     playerCube.position.z = playerLocation.z + 0.7;
@@ -24,17 +33,36 @@ const positionPlayer = function(playerLocation, camera) {
     board.group.position.y = 0 - playerCube.position.y;
     
     RotateCamera.rotate({
-        playerLocation: playerLocation,
+        playerLocation,
         playerOldFacing: playerOldFacing,
         playerCube: playerCube,
-        camera: camera
+        camera: myCamera
     })
     
     playerOldFacing = playerLocation.facing;
     
 };
 
+const getPlayerLocation = function() {
+    return playerLocation;
+}
+
+const updatePlayerLocation = function({x, y, facing}) {
+    if (x) {
+        playerLocation.x = x;
+    }
+    if (y) {
+        playerLocation.y = y;
+    }
+    if (facing) {
+        playerLocation.facing = facing;
+    }
+    positionPlayer(this.camera);
+}
+
 export default {
     initPlayer,
-    positionPlayer
+    positionPlayer,
+    getPlayerLocation,
+    updatePlayerLocation
 }

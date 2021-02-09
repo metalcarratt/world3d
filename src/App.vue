@@ -4,11 +4,10 @@
       :palette="palette"
       ref="gameBoard"
       :player="player"
-      :playerLocation="playerLocation"
       :selectorLocation="selectorLocation"
     />
-    <WalkControls :playerLocation="playerLocation" v-show="showWalkControls" />
-    <EditControls :selectorLocation="selectorLocation" :playerLocation="playerLocation" v-show="showEditControls" @updateBoard="updateBoard" />
+    <WalkControls v-show="showWalkControls" />
+    <EditControls :selectorLocation="selectorLocation" v-show="showEditControls" @updateBoard="updateBoard" />
     <ControlMode @changeMode="changeMode" />
 
   </div>
@@ -26,6 +25,7 @@ import EditControls from '@/components/edit/EditControls.vue';
 import ControlMode from '@/components/modes/ControlMode.vue';
 import Modes from "@/components/modes/modes.js";
 import board from '@/components/board/board.js';
+import playerUtil from '@/components/board/player.js';
 
 export default {
   name: 'App',
@@ -37,9 +37,6 @@ export default {
         1: Grass,
         2: Rock,
         3: Tree
-      },
-      playerLocation: {
-        x: 1, y: 1, z: 0, facing: 'up'
       },
       selectorLocation: {
         x: 1, y: 2, z: 0.4, show: false
@@ -61,8 +58,9 @@ export default {
     changeMode() {
       this.selectorLocation.show = Modes.isEditing();
       if (Modes.isEditing()) {
-        this.selectorLocation.x = this.playerLocation.x;
-        this.selectorLocation.y = this.playerLocation.y;
+        const playerLocation = playerUtil.getPlayerLocation()
+        this.selectorLocation.x = playerLocation.x;
+        this.selectorLocation.y = playerLocation.y;
       }
     },
     updateBoard({x, y, brush}) {

@@ -21,9 +21,10 @@
 <script>
 import Modes from "@/components/modes/modes.js";
 import brush from "@/components/edit/brush.js";
+import playerUtil from '@/components/board/player.js';
 
 export default {
-    props: ['selectorLocation', 'playerLocation'],
+    props: ['selectorLocation'],
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -56,7 +57,8 @@ export default {
             }
         },
         forward() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
                     this.selectorLocation.y = this.selectorLocation.y + 1;
                     break;
@@ -72,7 +74,8 @@ export default {
             }
         },
         backward() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
                     this.selectorLocation.y = this.selectorLocation.y - 1;
                     break;
@@ -88,7 +91,8 @@ export default {
             }
         },
         left() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
                     this.selectorLocation.x = this.selectorLocation.x - 1;
                     break;
@@ -104,7 +108,8 @@ export default {
             }
         },
         right() {
-            switch (this.playerLocation.facing) {
+            const playerLocation = playerUtil.getPlayerLocation();
+            switch (playerLocation.facing) {
                 case 'up':
                     this.selectorLocation.x = this.selectorLocation.x + 1;
                     break;
