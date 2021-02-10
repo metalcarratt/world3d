@@ -33,7 +33,7 @@ function addLight(scene) {
 }
 
 export default {
-    props: ['palette', 'player', 'playerLocation', 'selectorLocation'],
+    props: ['palette', 'player'],
     data() {
         return {
             renderer: null,
@@ -98,7 +98,7 @@ export default {
             addLight(this.scene);
         },
         initBoard() {
-            board.init(this.player, this.scene, this.camera, this.selectorLocation, this.palette);
+            board.init(this.player, this.scene, this.camera, this.palette);
         },
         drawBoard() {
             board.draw(this.palette);

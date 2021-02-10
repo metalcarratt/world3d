@@ -14,6 +14,8 @@
 <script>
 import Modes from "./modes.js";
 import brush from "@/components/edit/brush.js";
+import selectorUtil from '@/components/board/selector.js';
+import playerUtil from '@/components/board/player.js';
 
 export default {
     mounted() {
@@ -38,11 +40,11 @@ export default {
         },
         changeModeToWalking() {
             Modes.setWalking();
-            this.$emit('changeMode');
+            this.changeMode();
         },
         changeModeToEdit() {
             Modes.setEditing();
-            this.$emit('changeMode');
+            this.changeMode();
         },
         keyboard(e) {
             switch (e.keyCode) {
@@ -54,6 +56,17 @@ export default {
                     }
                     break;
             }
+        },
+        changeMode() {
+            // const selectorLocation = selectorUtil.getSelectorLocation();
+            selectorUtil.updateSelectorLocation({show: Modes.isEditing()});
+            if (Modes.isEditing()) {
+                const playerLocation = playerUtil.getPlayerLocation()
+                selectorUtil.updateSelectorLocation({x: playerLocation.x});
+                selectorUtil.updateSelectorLocation({y: playerLocation.y});
+            }
+            selectorUtil.positionSelector();
+            // board.positionSelector(this.selectorLocation);
         }
     }
 }

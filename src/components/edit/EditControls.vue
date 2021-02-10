@@ -22,9 +22,9 @@
 import Modes from "@/components/modes/modes.js";
 import brush from "@/components/edit/brush.js";
 import playerUtil from '@/components/board/player.js';
+import selectorUtil from '@/components/board/selector.js';
 
 export default {
-    props: ['selectorLocation'],
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -58,77 +58,86 @@ export default {
         },
         forward() {
             const playerLocation = playerUtil.getPlayerLocation();
+            const selectorLocation = selectorUtil.getSelectorLocation();
             switch (playerLocation.facing) {
                 case 'up':
-                    this.selectorLocation.y = this.selectorLocation.y + 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y + 1});
                     break;
                 case 'down':
-                    this.selectorLocation.y = this.selectorLocation.y - 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y - 1});
                     break;
                 case 'left':
-                    this.selectorLocation.x = this.selectorLocation.x - 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x - 1});
                     break;
                 case 'right':
-                    this.selectorLocation.x = this.selectorLocation.x + 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x + 1});
                     break;
             }
+            selectorUtil.positionSelector();
         },
         backward() {
             const playerLocation = playerUtil.getPlayerLocation();
+            const selectorLocation = selectorUtil.getSelectorLocation();
             switch (playerLocation.facing) {
                 case 'up':
-                    this.selectorLocation.y = this.selectorLocation.y - 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y - 1});
                     break;
                 case 'down':
-                    this.selectorLocation.y = this.selectorLocation.y + 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y + 1});
                     break;
                 case 'left':
-                    this.selectorLocation.x = this.selectorLocation.x + 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x + 1});
                     break;
                 case 'right':
-                    this.selectorLocation.x = this.selectorLocation.x - 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x - 1});
                     break;
             }
+            selectorUtil.positionSelector();
         },
         left() {
             const playerLocation = playerUtil.getPlayerLocation();
+            const selectorLocation = selectorUtil.getSelectorLocation();
             switch (playerLocation.facing) {
                 case 'up':
-                    this.selectorLocation.x = this.selectorLocation.x - 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x - 1});
                     break;
                 case 'down':
-                    this.selectorLocation.x = this.selectorLocation.x + 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x + 1});
                     break;
                 case 'left':
-                    this.selectorLocation.y = this.selectorLocation.y - 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y - 1});
                     break;
                 case 'right':
-                    this.selectorLocation.y = this.selectorLocation.y + 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y + 1});
                     break;
             }
+            selectorUtil.positionSelector();
         },
         right() {
             const playerLocation = playerUtil.getPlayerLocation();
+            const selectorLocation = selectorUtil.getSelectorLocation();
             switch (playerLocation.facing) {
                 case 'up':
-                    this.selectorLocation.x = this.selectorLocation.x + 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x + 1});
                     break;
                 case 'down':
-                    this.selectorLocation.x = this.selectorLocation.x - 1;
+                    selectorUtil.updateSelectorLocation({x: selectorLocation.x - 1});
                     break;
                 case 'left':
-                    this.selectorLocation.y = this.selectorLocation.y + 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y + 1});
                     break;
                 case 'right':
-                    this.selectorLocation.y = this.selectorLocation.y - 1;
+                    selectorUtil.updateSelectorLocation({y: selectorLocation.y - 1});
                     break;
             }
+            selectorUtil.positionSelector();
         },
         place() {
             window.console.log("place");
+            const selectorLocation = selectorUtil.getSelectorLocation();
             this.$emit('updateBoard', {
-                x: this.selectorLocation.x,
-                y: this.selectorLocation.y,
+                x: selectorLocation.x,
+                y: selectorLocation.y,
                 brush: brush.getBrush()
             });
         }

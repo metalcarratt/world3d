@@ -1,12 +1,13 @@
 import * as THREE from 'three';
-import buildSelector from '@/models/selector.js';
+// import buildSelector from '@/models/selector.js';
 import playerUtil from './player.js';
+import selectorUtil from './selector.js';
 
 const group = new THREE.Group();
 
 let midx = 0;
 let midy = 0;
-let selector = null;
+// let selector = null;
 
 const map = [
     [0,0,0,0,0,0,0],
@@ -19,12 +20,12 @@ const map = [
     [0,0,0,0,0,0,0],
 ];
 
-const positionSelector = function(selectorLocation) {
-    selector.position.x = selectorLocation.x - midx;
-    selector.position.y = selectorLocation.y - midy;
-    selector.position.z = selectorLocation.z;
-    selector.visible = selectorLocation.show;
-}
+// const positionSelector = function(selectorLocation) {
+//     selector.position.x = selectorLocation.x - midx;
+//     selector.position.y = selectorLocation.y - midy;
+//     selector.position.z = selectorLocation.z;
+//     selector.visible = selectorLocation.show;
+// }
 
 const updateBoard = function({x, y, brush, palette}) {
     // window.console.log("updateBoard, x=" + x + ", y=" + y + ", brush=" + brush);
@@ -78,7 +79,7 @@ const draw = function(palette) {
     }
 }
 
-const init = function(player, scene, camera, selectorLocation, palette) {
+const init = function(player, scene, camera, palette) {
     const width = map.length;
     const height = map[0].length;
     midx = Math.floor(width/2);
@@ -89,9 +90,10 @@ const init = function(player, scene, camera, selectorLocation, palette) {
 
     playerUtil.initPlayer(player, camera);
 
-    selector = buildSelector.mesh();
-    positionSelector(selectorLocation);
-    group.add(selector);
+    // selector = buildSelector.mesh();
+    // positionSelector(selectorLocation);
+    // group.add(selector);
+    selectorUtil.initSelector();
 
     scene.add(group);
 }
@@ -101,7 +103,6 @@ const getMid = function() {
 }
 
 export default {
-    positionSelector,
     updateBoard,
     init,
     draw,
