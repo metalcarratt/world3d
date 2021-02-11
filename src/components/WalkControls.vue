@@ -1,14 +1,14 @@
 <template>
     <table class="controls">
       <tr>
-        <td @click="strafeLeft">◄ Q</td>
-        <td @click="playerForward">↑ W</td>
-        <td @click="strafeRight">► E</td>
+        <td @click="strafeLeft">◄ <Keypress>Q</Keypress></td>
+        <td @click="playerForward">↑ <Keypress>W</Keypress></td>
+        <td @click="strafeRight">► <Keypress>E</Keypress></td>
       </tr>
       <tr>
-        <td @click="playerLeft">← A</td>
-        <td @click="playerBackward">↓ S</td>
-        <td @click="playerRight">→ D</td>
+        <td @click="playerLeft">← <Keypress>A</Keypress></td>
+        <td @click="playerBackward">↓ <Keypress>S</Keypress></td>
+        <td @click="playerRight">→ <Keypress>D</Keypress></td>
       </tr>
     </table>
 </template>
@@ -16,8 +16,10 @@
 <script>
 import Modes from "@/components/modes/modes.js";
 import playerUtil from '@/components/board/player.js';
+import Keypress from '@/components/Keypress.vue';
 
 export default {
+    components: { Keypress },
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -167,6 +169,7 @@ table.controls td {
   border-radius: 10px;
   padding: 5px;
   user-select: none;
+  text-align: center;
 }
 
 table.controls td:hover {

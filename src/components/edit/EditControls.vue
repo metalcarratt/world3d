@@ -2,17 +2,17 @@
     <table class="controls">
         <tr>
             <td class="empty"></td>
-            <td @click="forward">↑ W</td>
+            <td @click="forward">↑ <Keypress>W</Keypress></td>
             <td class="empty"></td>
         </tr>
         <tr>
-            <td @click="left">← A</td>
-            <td @click="backward">↓ S</td>
-            <td @click="right">→ D</td>
+            <td @click="left">← <Keypress>A</Keypress></td>
+            <td @click="backward">↓ <Keypress>S</Keypress></td>
+            <td @click="right">→ <Keypress>D</Keypress></td>
         </tr>
         <tr>
             <td class="empty"></td>
-            <td @click="place">space place</td>
+            <td @click="place">place <Keypress>space</Keypress></td>
             <td class="empty"></td>
         </tr>
     </table>
@@ -23,8 +23,10 @@ import Modes from "@/components/modes/modes.js";
 import brush from "@/components/edit/brush.js";
 import playerUtil from '@/components/board/player.js';
 import selectorUtil from '@/components/board/selector.js';
+import Keypress from '@/components/Keypress.vue';
 
 export default {
+    components: {Keypress },
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -157,6 +159,7 @@ table.controls td {
   border-radius: 10px;
   padding: 5px;
   user-select: none;
+  text-align: center;
 }
 
 table.controls td.empty {

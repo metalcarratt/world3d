@@ -2,6 +2,7 @@
     <div class="modes">
         <span :class="isWalking() ? 'selected' : ''" @click="changeModeToWalking">Walk</span>
         <span :class="isEditing() ? 'selected' : ''" @click="changeModeToEdit">Edit</span>
+        <Keypress>`</Keypress>
         <span v-if="isEditing()">
             <select v-model="brush">
                 <option>water</option>
@@ -20,9 +21,10 @@ import brush from "@/components/edit/brush.js";
 import selectorUtil from '@/components/board/selector.js';
 import playerUtil from '@/components/board/player.js';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
+import Keypress from '@/components/Keypress.vue';
 
 export default {
-    components: { ShowBlock },
+    components: { ShowBlock, Keypress },
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
