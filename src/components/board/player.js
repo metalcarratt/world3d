@@ -48,13 +48,13 @@ const getPlayerLocation = function() {
 }
 
 const updatePlayerLocation = function({x, y, facing}) {
-    if (x) {
+    if (x !== undefined) {
         playerLocation.x = x;
     }
-    if (y) {
+    if (y !== undefined) {
         playerLocation.y = y;
     }
-    if (facing) {
+    if (facing !== undefined) {
         playerLocation.facing = facing;
     }
     positionPlayer(this.camera);

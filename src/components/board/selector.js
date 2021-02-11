@@ -31,10 +31,10 @@ const getSelectorLocation = function() {
 
 const updateSelectorLocation = function({x, y, show}) {
     // window.console.log(`update selector location x=${x} y=${y} show=${show}`);
-    if (x) {
+    if (x !== undefined) {
         selectorLocation.x = x;
     }
-    if (y) {
+    if (y !== undefined) {
         selectorLocation.y = y;
     }
     if (show !== undefined) {
