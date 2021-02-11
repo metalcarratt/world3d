@@ -16,7 +16,7 @@ span {
     padding: 1px;
     text-align: center;
     font-family: monospace;
-    background-color: #ccc;
+    background-color: #f862e0;
     color: #333;
     width: 45px;
 }

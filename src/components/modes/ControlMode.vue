@@ -5,14 +5,9 @@
         <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
-            <ShowBlock id="brush" :brush="brush"/>
-            <select v-model="brush">
-                <option>water</option>
-                <option>grass</option>
-                <option>rock</option>
-                <option>tree</option>
-            </select>
+            <ShowBlock id="brush" :brush="brush" @click.native="showChooseBrushModal = true" />
         </span>
+        <ChooseBrush v-if="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" />
     </div>
 </template>
 
@@ -23,9 +18,15 @@ import selectorUtil from '@/components/board/selector.js';
 import playerUtil from '@/components/board/player.js';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
 import Keypress from '@/components/Keypress.vue';
+import ChooseBrush from '@/components/edit/ChooseBrush.vue';
 
 export default {
-    components: { ShowBlock, Keypress },
+    components: { ShowBlock, Keypress, ChooseBrush },
+    data() {
+        return {
+            showChooseBrushModal: false
+        }
+    },
     mounted() {
         window.addEventListener("keypress", this.keyboard);
     },
@@ -55,12 +56,18 @@ export default {
             this.changeMode();
         },
         keyboard(e) {
+            window.console.log(e.keyCode);
             switch (e.keyCode) {
                 case 96: // ~
                     if (this.isWalking()) {
                         this.changeModeToEdit();
-                    } else {
+                    } else if (!this.showChooseBrushModal) {
                         this.changeModeToWalking();
+                    }
+                    break;
+                case 112: // P
+                    if (this.isEditing()) {
+                        this.showChooseBrushModal = !this.showChooseBrushModal;
                     }
                     break;
             }
@@ -75,6 +82,10 @@ export default {
             }
             selectorUtil.positionSelector();
             // board.positionSelector(this.selectorLocation);
+        },
+        updateBrush(newBrush) {
+            this.brush = newBrush;
+            this.showChooseBrushModal = false;
         }
     }
 }

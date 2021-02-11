@@ -9,10 +9,9 @@ import Water from '@/models/water.js';
 import Grass from '@/models/grass.js';
 import Rock from '@/models/rock.js';
 import Tree from '@/models/tree.js';
-import brush from "@/components/edit/brush.js";
 
 export default {
-    props: ['id'],
+    props: ['id', 'brush'],
     data() {
         return {
             scene: null,
@@ -20,9 +19,6 @@ export default {
             renderer: null,
             block: null
         }
-    },
-    computed: {
-        brush: () => brush.getBrush()
     },
     watch: {
         brush() {
