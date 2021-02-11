@@ -1,16 +1,17 @@
 <template>
     <div class="modes">
-        <span :class="isWalking() ? 'selected' : ''" @click="changeModeToWalking">Walk</span>
-        <span :class="isEditing() ? 'selected' : ''" @click="changeModeToEdit">Edit</span>
-        <Keypress>`</Keypress>
+        <h2>Mode </h2><Keypress :inline="true">`</Keypress>
+        <span :class="[isWalking() ? 'selected' : '', 'button']" @click="changeModeToWalking">Walk</span>
+        <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
+            <h2>Brush</h2><Keypress :inline="true">P</Keypress>
+            <ShowBlock id="brush" :brush="brush"/>
             <select v-model="brush">
                 <option>water</option>
                 <option>grass</option>
                 <option>rock</option>
                 <option>tree</option>
             </select>
-            <ShowBlock id="brush" :brush="brush"/>
         </span>
     </div>
 </template>
@@ -80,6 +81,14 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: sans-serif;
+    display: inline-block;
+    margin-right: 4px;
+}
+
 div.modes {
   position: absolute;
   top: 30px;
@@ -91,7 +100,7 @@ div.modes {
   padding: 4px;
 }
 
-div.modes span {
+div.modes span.button {
     display: block;
     border: 1px solid black;
     border-radius: 4px;
@@ -100,7 +109,7 @@ div.modes span {
     user-select: none
 }
 
-div.modes span.selected {
+div.modes span.button.selected {
     background-color: yellow;
 }
 
@@ -108,7 +117,7 @@ div.modes span:not(.selected):hover {
     cursor: pointer;
 }
 
-div.modes span + span {
+div.modes span.button + span.button {
     margin-top: 4px;
 }
 </style>

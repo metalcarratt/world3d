@@ -1,5 +1,5 @@
 <template>
-    <div :id="id">
+    <div :id="id" class="block">
     </div>
 </template>
 
@@ -75,3 +75,11 @@ export default {
     }
 }
 </script>
+
+<style>
+div.block canvas {
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+</style>
