@@ -24,40 +24,39 @@ import brush from "@/components/edit/brush.js";
 import playerUtil from '@/components/board/player.js';
 import selectorUtil from '@/components/board/selector.js';
 import Keypress from '@/components/Keypress.vue';
+import keyboard from '@/components/keyboard.js';
 
 export default {
     components: {Keypress },
     mounted() {
-        window.addEventListener("keypress", this.keyboard);
+        keyboard.registerAll({
+            name: "EditControls",
+            condition: () => Modes.isEditing(),
+            registrations: [
+                {
+                    key: keyboard.W,
+                    callback: () => this.forward()
+                },
+                {
+                    key: keyboard.S,
+                    callback: () => this.backward()
+                },
+                {
+                    key: keyboard.A,
+                    callback: () => this.left()        
+                },
+                {
+                    key: keyboard.D,
+                    callback: () => this.right()        
+                },
+                {
+                    key: keyboard.SPACE,
+                    callback: () => this.place()
+                }
+            ]
+        });
     },
     methods: {
-        keyboard(e) {
-            if (Modes.isEditing()) {
-                console.log(e.keyCode);
-                switch (e.keyCode) {
-                    case 87: // W
-                    case 119:
-                        this.forward();
-                        break;
-                    case 83: // S
-                    case 115:
-                        this.backward();
-                        break;
-                    case 97: // A
-                        this.left();
-                        break;
-                    case 100: // D
-                        this.right();
-                        break;
-                    case 32: // space
-                        this.place();
-                        break;
-                    default:
-                        return;
-                }
-                e.preventDefault();
-            }
-        },
         forward() {
             const playerLocation = playerUtil.getPlayerLocation();
             const selectorLocation = selectorUtil.getSelectorLocation();

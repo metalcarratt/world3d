@@ -24,6 +24,7 @@ import EditControls from '@/components/edit/EditControls.vue';
 import ControlMode from '@/components/modes/ControlMode.vue';
 import Modes from "@/components/modes/modes.js";
 import board from '@/components/board/board.js';
+import keyboard from '@/components/keyboard.js';
 
 export default {
   name: 'App',
@@ -37,6 +38,9 @@ export default {
         3: Tree
       }
     }
+  },
+  mounted() {
+    window.addEventListener("keypress", keyboard.handleKeyPress);
   },
   computed: {
     player() {

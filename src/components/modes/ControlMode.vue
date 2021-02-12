@@ -7,7 +7,7 @@
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
             <ShowBlock id="brush" :brush="brush" @click.native="showChooseBrushModal = true" />
         </span>
-        <ChooseBrush v-if="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" />
+        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" />
     </div>
 </template>
 
@@ -19,6 +19,7 @@ import playerUtil from '@/components/board/player.js';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
 import Keypress from '@/components/Keypress.vue';
 import ChooseBrush from '@/components/edit/ChooseBrush.vue';
+import keyboard from '@/components/keyboard.js';
 
 export default {
     components: { ShowBlock, Keypress, ChooseBrush },
@@ -26,9 +27,6 @@ export default {
         return {
             showChooseBrushModal: false
         }
-    },
-    mounted() {
-        window.addEventListener("keypress", this.keyboard);
     },
     computed: {
         brush: {
@@ -39,6 +37,27 @@ export default {
                 return brush.getBrush();
             }
         }
+    },
+    mounted() {
+        keyboard.registerInterest({
+            name: "ControlMode",
+            key: keyboard.TILDE,
+            condition: () => !this.showChooseBrushModal,
+            callback: () => {
+                if (this.isWalking()) {
+                    this.changeModeToEdit();
+                } else if (!this.showChooseBrushModal) {
+                    this.changeModeToWalking();
+                }
+            }
+        });
+
+        keyboard.registerInterest({
+            name: "ControlMode",
+            key: keyboard.P,
+            condition: () => this.isEditing(),
+            callback: () => this.showChooseBrushModal = !this.showChooseBrushModal
+        });
     },
     methods: {
         isWalking() {
@@ -54,23 +73,6 @@ export default {
         changeModeToEdit() {
             Modes.setEditing();
             this.changeMode();
-        },
-        keyboard(e) {
-            window.console.log(e.keyCode);
-            switch (e.keyCode) {
-                case 96: // ~
-                    if (this.isWalking()) {
-                        this.changeModeToEdit();
-                    } else if (!this.showChooseBrushModal) {
-                        this.changeModeToWalking();
-                    }
-                    break;
-                case 112: // P
-                    if (this.isEditing()) {
-                        this.showChooseBrushModal = !this.showChooseBrushModal;
-                    }
-                    break;
-            }
         },
         changeMode() {
             // const selectorLocation = selectorUtil.getSelectorLocation();

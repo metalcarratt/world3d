@@ -1,14 +1,14 @@
 <template>
     <table class="controls">
       <tr>
-        <td @click="strafeLeft">◄ <Keypress>Q</Keypress></td>
+        <td @click="playerLeft">◄ <Keypress>Q</Keypress></td>
         <td @click="playerForward">↑ <Keypress>W</Keypress></td>
-        <td @click="strafeRight">► <Keypress>E</Keypress></td>
+        <td @click="playerRight">► <Keypress>E</Keypress></td>
       </tr>
       <tr>
-        <td @click="playerLeft">← <Keypress>A</Keypress></td>
+        <td @click="strafeLeft">← <Keypress>A</Keypress></td>
         <td @click="playerBackward">↓ <Keypress>S</Keypress></td>
-        <td @click="playerRight">→ <Keypress>D</Keypress></td>
+        <td @click="strafeRight">→ <Keypress>D</Keypress></td>
       </tr>
     </table>
 </template>
@@ -17,40 +17,43 @@
 import Modes from "@/components/modes/modes.js";
 import playerUtil from '@/components/board/player.js';
 import Keypress from '@/components/Keypress.vue';
+import keyboard from '@/components/keyboard.js';
 
 export default {
     components: { Keypress },
     mounted() {
-        window.addEventListener("keypress", this.keyboard);
+        keyboard.registerAll({
+            name: "WalkControls",
+            condition: () => Modes.isWalking(),
+            registrations: [
+                {
+                    key: keyboard.W,
+                    callback: () => this.playerForward()
+                },
+                {
+                    key: keyboard.S,
+                    callback: () => this.playerBackward()
+                },
+                {
+                    key: keyboard.A,
+                    callback: () => this.strafeLeft()        
+                },
+                {
+                    key: keyboard.D,
+                    callback: () => this.strafeRight()        
+                },
+                {
+                    key: keyboard.Q,
+                    callback: () => this.playerLeft()
+                },
+                {
+                    key: keyboard.E,
+                    callback: () => this.playerRight()
+                }
+            ]
+        });
     },
     methods: {
-        keyboard(e) {
-            if (Modes.isWalking()) {
-                // console.log(e.keyCode);
-                switch (e.keyCode) {
-                    case 87: // W
-                    case 119:
-                        this.playerForward();
-                        break;
-                    case 83: // S
-                    case 115:
-                        this.playerBackward();
-                        break;
-                    case 97: // A
-                        this.playerLeft();
-                        break;
-                    case 100: // D
-                        this.playerRight();
-                        break;
-                    case 113: // Q
-                        this.strafeLeft();
-                        break;
-                    case 101: // E
-                        this.strafeRight();
-                        break;
-                }
-            }
-        },
         playerForward() {
             const playerLocation = playerUtil.getPlayerLocation();
             switch (playerLocation.facing) {

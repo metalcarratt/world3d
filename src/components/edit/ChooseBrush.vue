@@ -30,29 +30,44 @@
 <script>
 import Keypress from '@/components/Keypress.vue';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
+import keyboard from '@/components/keyboard.js';
+
 export default {
     components: { ShowBlock, Keypress },
     mounted() {
-        window.addEventListener("keypress", this.keyboard);
-    },
-    methods: {
-        keyboard(e) {
-            window.console.log(e.keyCode);
-            switch (e.keyCode) {
-                case 48: // 0
-                    this.$emit('changeTo', 'water');
-                    break;
-                case 49: // 1
-                    this.$emit('changeTo', 'grass');
-                    break;
-                case 50: // 2
-                    this.$emit('changeTo', 'rock');
-                    break;
-                case 51: // 3
-                    this.$emit('changeTo', 'tree');
-                    break;
+        keyboard.registerInterest({
+            name: "ChooseBrush",
+            key: keyboard.NUM0,
+            condition : () => true,
+            callback: () => {
+                window.console.log("press 0");
+                this.$emit('changeTo', 'water');
             }
-        }
+        });
+
+        keyboard.registerInterest({
+            name: "ChooseBrush",
+            key: keyboard.NUM1,
+            condition : () => true,
+            callback: () => {
+                window.console.log("press 1");
+                this.$emit('changeTo', 'grass');
+            }
+        });
+
+        keyboard.registerInterest({
+            name: "ChooseBrush",
+            key: keyboard.NUM2,
+            condition : () => true,
+            callback: () => this.$emit('changeTo', 'rock')
+        });
+
+        keyboard.registerInterest({
+            name: "ChooseBrush",
+            key: keyboard.NUM3,
+            condition : () => true,
+            callback: () => this.$emit('changeTo', 'tree')
+        });
     }
 }
 </script>
