@@ -7,7 +7,7 @@
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
             <ShowBlock id="brush" :brush="brush" @click.native="showChooseBrushModal = true" />
         </span>
-        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" />
+        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" :visible="showChooseBrushModal" />
     </div>
 </template>
 

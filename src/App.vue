@@ -3,12 +3,11 @@
     <GameBoard
       :palette="palette"
       ref="gameBoard"
-      :player="player"
     />
     <WalkControls v-show="showWalkControls" />
     <EditControls v-show="showEditControls" @updateBoard="updateBoard" />
     <ControlMode />
-
+    <SystemControls />
   </div>
 </template>
 
@@ -17,18 +16,18 @@ import Water from '@/models/water.js';
 import Grass from '@/models/grass.js';
 import Rock from '@/models/rock.js';
 import Tree from '@/models/tree.js';
-import Ghost from '@/models/ghost.js';
 import GameBoard from '@/components/board/GameBoard.vue';
 import WalkControls from '@/components/WalkControls.vue';
 import EditControls from '@/components/edit/EditControls.vue';
 import ControlMode from '@/components/modes/ControlMode.vue';
+import SystemControls from '@/components/system/SystemControls.vue';
 import Modes from "@/components/modes/modes.js";
 import board from '@/components/board/board.js';
 import keyboard from '@/components/keyboard.js';
 
 export default {
   name: 'App',
-  components: { GameBoard, WalkControls, EditControls, ControlMode },
+  components: { GameBoard, WalkControls, EditControls, SystemControls, ControlMode },
   data() {
     return {
       palette: {
@@ -43,9 +42,6 @@ export default {
     window.addEventListener("keypress", keyboard.handleKeyPress);
   },
   computed: {
-    player() {
-      return Ghost;
-    },
     showWalkControls() {
       return Modes.isWalking();
     },

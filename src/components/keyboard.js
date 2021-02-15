@@ -56,6 +56,7 @@ export default {
         }
     },
     handleKeyPress(e) {
+        window.console.log(`handle key press ${e.keyCode}`)
         for (let keyCode of Object.keys(keymap)) {
             if (e.keyCode === parseInt(keyCode)) {
                 callCallback(keymap[keyCode]);

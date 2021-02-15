@@ -1,5 +1,5 @@
 <template>
-    <span :class="inline? 'inline' : ''"><slot></slot></span>
+    <span :class="[inline? 'inline' : '', 'keypress']"><slot></slot></span>
 </template>
 
 <script>
