@@ -2,11 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-const WALK = "walk", EDIT = "edit";
+const WALK = "walk", EDIT = "edit", MODAL = "modal";
 
 const modes = new Vuex.Store({
     state: {
-        mode: WALK
+        mode: WALK,
+        lastMode: WALK
     },
     getters: {
         isWalking(state) {
@@ -22,6 +23,13 @@ const modes = new Vuex.Store({
         },
         setModeEdit (state) {
             state.mode = EDIT
+        },
+        setModeModal(state) {
+            state.lastMode = state.mode;
+            state.mode = MODAL
+        },
+        returnToLastMode(state) {
+            state.mode = state.lastMode;
         }
     }
 });
@@ -32,6 +40,12 @@ export default {
     },
     setEditing() {
         modes.commit('setModeEdit');
+    },
+    modalOpened() {
+        modes.commit('setModeModal');
+    },
+    modalClosed() {
+        modes.commit('returnToLastMode');
     },
     isWalking() {
         return modes.getters.isWalking;

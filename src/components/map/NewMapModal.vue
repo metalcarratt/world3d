@@ -1,5 +1,5 @@
 <template>
-    <Modal title="New Map" @close="$emit('close')">
+    <Modal title="New Map" @close="$emit('close')" size="medium">
         <fieldset>
             <label>Size</label>
             X: <input type="text" v-model="x" />

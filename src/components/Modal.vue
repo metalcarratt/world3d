@@ -1,6 +1,6 @@
 <template>
     <div class="mask">
-        <div class="modal">
+        <div class="modal" :class="size">
             <h2>{{ title }}</h2>
             <span class="button" @click="$emit('close')">Close X<Keypress v-if="keypress">{{ keypress }}</Keypress></span>
             <br/>
@@ -13,7 +13,7 @@
 import Keypress from '@/components/Keypress.vue';
 
 export default {
-    props: ['title', 'keypress'],
+    props: ['title', 'keypress', 'size'],
     components: { Keypress }
 }
 </script>
@@ -39,6 +39,10 @@ div.modal {
     border: 1px solid black;
     border-radius: 4px;
     padding: 4px;
+}
+
+div.modal.medium {
+    width: 600px;
 }
 
 /* title */

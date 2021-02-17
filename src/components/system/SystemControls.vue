@@ -1,33 +1,37 @@
 <template>
     <div class="menu">
-        <ul class="main">
-            <li @click="clickMap" :class="mapSelected ? 'selected' : ''">
-                Map
-                <Keypress>1</Keypress>
-            </li>
-        </ul>
-        <ul class="sub" @click="clickMapNew" v-if="mapSelected">
-            <li>
-                New
-            </li>
-        </ul>
-        <NewMapModal v-show="showNewMapModal" @close="showNewMapModal = false" />
+        <nav class="main">
+            <NavLink @click="clickMap" :selected="mapSelected">Map</NavLink>
+        </nav>
+        <nav class="sub" v-if="mapSelected">
+            <NavLink @click="clickMapNew">New</NavLink>
+            <NavLink @click="clickMapLoad">Load</NavLink>
+            <NavLink @click="clickMapSave">Save</NavLink>
+        </nav>
+        <NewMapModal v-show="showNewMapModal" @close="closeNewMapModal" />
+        <SaveMapModal v-show="showSaveMapModal" @close="closeSaveMapModal" />
+        <LoadMapModal v-show="showLoadMapModal" @close="closeLoadMapModal" ref="loadMapModal" />
     </div>
 </template>
 
 <script>
-import Keypress from '@/components/Keypress.vue';
 import NewMapModal from '@/components/map/NewMapModal.vue';
+import SaveMapModal from '@/components/map/SaveMapModal.vue';
+import LoadMapModal from '@/components/map/LoadMapModal.vue';
+import NavLink from './NavLink.vue';
+import modes from '@/components/modes/modes.js';
 
 const NONE = "none";
 const MAP = "map";
 
 export default {
-    components: { Keypress, NewMapModal },
+    components: { NewMapModal, SaveMapModal, LoadMapModal, NavLink },
     data() {
         return {
             selected: NONE,
-            showNewMapModal: false
+            showNewMapModal: false,
+            showSaveMapModal: false,
+            showLoadMapModal: false
         }
     },
     computed: {
@@ -46,6 +50,30 @@ export default {
         clickMapNew() {
             this.selected = NONE;
             this.showNewMapModal = true;
+            modes.modalOpened();
+        },
+        closeNewMapModal() {
+            this.showNewMapModal = false;
+            modes.modalClosed();
+        },
+        clickMapSave() {
+            this.selected = NONE;
+            this.showSaveMapModal = true;
+            modes.modalOpened();
+        },
+        closeSaveMapModal() {
+            this.showSaveMapModal = false;
+            modes.modalClosed();
+        },
+        clickMapLoad() {
+            this.$refs['loadMapModal'].loadMaps();
+            this.selected = NONE;
+            this.showLoadMapModal = true;
+            modes.modalOpened();
+        },
+        closeLoadMapModal() {
+            this.showLoadMapModal = false;
+            modes.modalClosed();
         }
     }
 }
@@ -58,41 +86,15 @@ div {
   left: 10px;
 }
 
-ul {
+nav {
     padding: 0;
     margin: 0;
+    width: 800px;
 }
 
-ul.sub {
+nav.sub {
     position: absolute;
     bottom: 80px;
-}
-
-ul li {
-    display: block;
-    background-color: white;
-    padding: 5px;
-    border-radius: 40px;
-    width: 70px;
-    height: 70px;
-    text-align: center;
-    box-sizing: border-box;
-    padding-top: 15px;
-    font-family: sans-serif;
-}
-
-ul li.selected {
-    background-color: #aaa;
-}
-
-ul li:hover {
-    cursor: pointer;
-    border: 3px solid yellow;
-    width: 76px;
-    height: 76px;
-    margin-left: -3px;
-    margin-bottom: -3px;
-    background-color: #aaa;
 }
 
 span.keypress {

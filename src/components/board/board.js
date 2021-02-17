@@ -29,6 +29,10 @@ let map = [
     [0,0,0,0,0,0,0],
 ];
 
+const getBoard = function() {
+    return map;
+}
+
 const updateBoard = function({x, y, brush, palette}) {
     // window.console.log("updateBoard, x=" + x + ", y=" + y + ", brush=" + brush);
     switch (brush) {
@@ -121,5 +125,6 @@ export default {
     init,
     draw,
     getMid, group,
-    newBoard
+    newBoard,
+    getBoard
 }
