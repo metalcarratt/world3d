@@ -23,7 +23,6 @@
 import canvas from './canvas.js';
 
 export default {
-    props: ['palette'],
     mounted() {
         canvas.initRenderer();
         canvas.initBoard();

@@ -4,12 +4,12 @@
             <label>Map Name</label>
             <input type="text" v-model="mapName" />
         </fieldset>
-        <button @click="saveMap">Save</button>
+        <ModalButton @click="saveMap">Save</ModalButton>
     </Modal>
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/ui/Modal.vue';
 import mapUtil from './mapUtil.js';
 
 export default {

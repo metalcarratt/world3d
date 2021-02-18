@@ -1,7 +1,6 @@
 <template>
   <div id="app" >
     <GameBoard
-      :palette="palette"
       ref="gameBoard"
     />
     <WalkControls v-show="showWalkControls" />
@@ -12,10 +11,6 @@
 </template>
 
 <script>
-import Water from '@/models/water.js';
-import Grass from '@/models/grass.js';
-import Rock from '@/models/rock.js';
-import Tree from '@/models/tree.js';
 import GameBoard from '@/components/board/GameBoard.vue';
 import WalkControls from '@/components/WalkControls.vue';
 import EditControls from '@/components/edit/EditControls.vue';
@@ -28,16 +23,6 @@ import keyboard from '@/components/keyboard.js';
 export default {
   name: 'App',
   components: { GameBoard, WalkControls, EditControls, SystemControls, ControlMode },
-  data() {
-    return {
-      palette: {
-        0: Water,
-        1: Grass,
-        2: Rock,
-        3: Tree
-      }
-    }
-  },
   mounted() {
     window.addEventListener("keypress", keyboard.handleKeyPress);
   },
@@ -51,7 +36,7 @@ export default {
   },
   methods: {
     updateBoard({x, y, brush}) {
-      board.updateBoard({x, y, brush, palette: this.palette});
+      board.updateBoard({x, y, brush});
     }
   }
 }

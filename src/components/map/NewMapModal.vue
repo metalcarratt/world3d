@@ -21,12 +21,12 @@
                 <option>Tree</option>
             </select>
         </fieldset>
-        <button @click="create">Create</button>
+        <ModalButton @click="create">Create</ModalButton>
     </Modal>
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/ui/Modal.vue';
 import boardUtil from '@/components/board/board.js';
 
 export default {

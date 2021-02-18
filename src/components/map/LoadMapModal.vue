@@ -10,12 +10,12 @@
                 {{ world }}
             </li>
         </ul>
-        <button @click="loadMap">Load</button>
+        <ModalButton @click="loadMap">Load</ModalButton>
     </Modal>
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/ui/Modal.vue';
 import mapUtil from './mapUtil.js';
 import boardUtil from '@/components/board/board.js';
 

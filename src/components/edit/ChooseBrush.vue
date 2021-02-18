@@ -26,7 +26,7 @@
 import Keypress from '@/components/Keypress.vue';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
 import keyboard from '@/components/keyboard.js';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/ui/Modal.vue';
 
 export default {
     props: ['visible'],
