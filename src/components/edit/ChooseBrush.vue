@@ -1,74 +1,58 @@
 <template>
     <Modal title="Choose brush" @close="$emit('close')" keypress="P">
-        <div class="item" @click="$emit('changeTo', 'water')">
-            <ShowBlock id="brush-water" brush="water" />
-            <Keypress :inline="true">0</Keypress>
+        <div :class="['item', selected('water') ? 'selected' : '']" @click="selectedBrush = 'water'">
+            <ShowBlock id="brush-water" brush="water" size="s100" />
         </div>
 
-        <div class="item" @click="$emit('changeTo', 'grass')">
-            <ShowBlock id="brush-grass" brush="grass" />
-            <Keypress :inline="true">1</Keypress>
+        <div :class="['item', selected('grass') ? 'selected' : '']" @click="selectedBrush = 'grass'">
+            <ShowBlock id="brush-grass" brush="grass" size="s100" />
         </div>
 
-        <div class="item" @click="$emit('changeTo', 'rock')">
-            <ShowBlock id="brush-rock" brush="rock" />
-            <Keypress :inline="true">2</Keypress>
+        <div :class="['item', selected('rock') ? 'selected' : '']" @click="selectedBrush = 'rock'">
+            <ShowBlock id="brush-rock" brush="rock" size="s100" />
         </div>
 
-        <div class="item" @click="$emit('changeTo', 'tree')">
-            <ShowBlock id="brush-tree" brush="tree" />
-            <Keypress :inline="true">3</Keypress>
+        <div :class="['item', selected('tree') ? 'selected' : '']" @click="selectedBrush = 'tree'">
+            <ShowBlock id="brush-tree" brush="tree" size="s100" />
+        </div>
+        <div>
+            <ModalButton @click="$emit('changeTo', selectedBrush)">Choose</ModalButton>
+            <ModalButton @click="$emit('edit', selectedBrush)">Edit</ModalButton>
         </div>
     </Modal>
 </template>
 
 <script>
-import Keypress from '@/components/Keypress.vue';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
-import keyboard from '@/components/keyboard.js';
 import Modal from '@/components/ui/Modal.vue';
 
 export default {
-    props: ['visible'],
-    components: { ShowBlock, Keypress, Modal },
-    mounted() {
-        keyboard.registerAll({
-            condition : () => this.visible,
-            registrations: [
-                {
-                    key: keyboard.NUM0,
-                    callback: () => this.$emit('changeTo', 'water')
-                },
-                {
-                    key: keyboard.NUM1,
-                    callback: () => this.$emit('changeTo', 'grass')
-                },
-                {
-                    key: keyboard.NUM2,
-                    callback: () => this.$emit('changeTo', 'rock')
-                },
-                {
-                    key: keyboard.NUM3,
-                    callback: () => this.$emit('changeTo', 'tree')
-                }
-            ]
-        });
+    data() {
+        return {
+            selectedBrush: ''
+        }
+    },
+    components: { ShowBlock, Modal },
+    methods: {
+        selected(brush) {
+            return this.selectedBrush === brush;
+        }
     }
 }
 </script>
 
 <style scoped>
-
-
-
-
 div.item {
     display: inline-block;
     padding: 6px;
     border-radius: 4px;
 }
 
-div.item:hover {
+div.item.selected {
+    background-color: yellow;
+}
+
+div.item:not(.selected):hover {
     cursor: pointer;
     background-color: #aaa;
 }

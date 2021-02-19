@@ -5,9 +5,10 @@
         <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
-            <ShowBlock id="brush" :brush="brush" @click.native="showChooseBrushModal = true" />
+            <ShowBlock id="brush" :brush="brush" @click.native="openChooseBrushModal" size="s100" />
         </span>
-        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="showChooseBrushModal = false" :visible="showChooseBrushModal" />
+        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="closeChooseBrushModal" @edit="openEditBrushModal" />
+        <EditBrushModal v-show="showEditBrushModal" :visible="showEditBrushModal" @close="closeEditBrushModal" :editBrush="selectedEditBrush" />
     </div>
 </template>
 
@@ -19,13 +20,16 @@ import playerUtil from '@/components/board/player.js';
 import ShowBlock from '@/components/edit/ShowBlock.vue';
 import Keypress from '@/components/Keypress.vue';
 import ChooseBrush from '@/components/edit/ChooseBrush.vue';
+import EditBrushModal from '@/components/edit/EditBrushModal.vue';
 import keyboard from '@/components/keyboard.js';
 
 export default {
-    components: { ShowBlock, Keypress, ChooseBrush },
+    components: { ShowBlock, Keypress, ChooseBrush, EditBrushModal },
     data() {
         return {
-            showChooseBrushModal: false
+            showChooseBrushModal: false,
+            showEditBrushModal: false,
+            selectedEditBrush: ''
         }
     },
     computed: {
@@ -87,7 +91,24 @@ export default {
         },
         updateBrush(newBrush) {
             this.brush = newBrush;
+            this.closeChooseBrushModal();
+        },
+        openChooseBrushModal() {
+            this.showChooseBrushModal = true
+            Modes.modalOpened();
+        },
+        closeChooseBrushModal() {
             this.showChooseBrushModal = false;
+            Modes.modalClosed();
+        },
+        openEditBrushModal(selectedBrush) {
+            this.closeChooseBrushModal();
+            this.selectedEditBrush = selectedBrush;
+            this.showEditBrushModal = true;
+        },
+        closeEditBrushModal() {
+            this.showEditBrushModal = false;
+            this.openChooseBrushModal();
         }
     }
 }

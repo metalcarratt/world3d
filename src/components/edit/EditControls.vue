@@ -1,19 +1,19 @@
 <template>
     <table class="controls">
         <tr>
-            <td class="empty"></td>
-            <td @click="forward">↑ <Keypress>W</Keypress></td>
-            <td class="empty"></td>
+            <KeyButton />
+            <KeyButton @click="forward" keypress="W">↑</KeyButton>
+            <KeyButton />
         </tr>
         <tr>
-            <td @click="left">← <Keypress>A</Keypress></td>
-            <td @click="backward">↓ <Keypress>S</Keypress></td>
-            <td @click="right">→ <Keypress>D</Keypress></td>
+            <KeyButton @click="left" keypress="A">←</KeyButton>
+            <KeyButton @click="backward" keypress="S">↓</KeyButton>
+            <KeyButton @click="right" keypress="D">→</KeyButton>
         </tr>
         <tr>
-            <td class="empty"></td>
-            <td @click="place">place <Keypress>space</Keypress></td>
-            <td class="empty"></td>
+            <KeyButton />
+            <KeyButton @click="place" keypress="space">place</KeyButton>
+            <KeyButton />
         </tr>
     </table>
 </template>
@@ -23,11 +23,11 @@ import Modes from "@/components/modes/modes.js";
 import brush from "@/components/edit/brush.js";
 import playerUtil from '@/components/board/player.js';
 import selectorUtil from '@/components/board/selector.js';
-import Keypress from '@/components/Keypress.vue';
 import keyboard from '@/components/keyboard.js';
+import KeyButton from '@/components/ui/KeyButton.vue';
 
 export default {
-    components: {Keypress },
+    components: { KeyButton },
     mounted() {
         keyboard.registerAll({
             name: "EditControls",
@@ -150,31 +150,5 @@ export default {
 table.controls {
   position: absolute;
   top: 20px;
-}
-
-table.controls td {
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 5px;
-  user-select: none;
-  text-align: center;
-}
-
-table.controls td.empty {
-    background-color: #00000000;
-    border: none;
-}
-
-table.controls td:hover {
-  background-color: #aaa;
-  cursor: pointer;
-}
-
-@media (hover: none) {
-  table.controls td {
-    width: 50px;
-    height: 50px;
-  }
 }
 </style>

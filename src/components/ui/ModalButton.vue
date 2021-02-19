@@ -11,6 +11,10 @@ button {
     margin-top: 8px;
 }
 
+button + button {
+    margin-left: 10px;
+}
+
 button:hover {
     cursor: pointer;
     background-color: #ccc;

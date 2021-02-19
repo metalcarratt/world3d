@@ -1,14 +1,14 @@
 <template>
     <table class="controls">
       <tr>
-        <td @click="playerLeft">◄ <Keypress>Q</Keypress></td>
-        <td @click="playerForward">↑ <Keypress>W</Keypress></td>
-        <td @click="playerRight">► <Keypress>E</Keypress></td>
+        <KeyButton @click="playerLeft" keypress="Q">◄</KeyButton>
+        <KeyButton @click="playerForward" keypress="W">↑</KeyButton>
+        <KeyButton @click="playerRight" keypress="E">►</KeyButton>
       </tr>
       <tr>
-        <td @click="strafeLeft">← <Keypress>A</Keypress></td>
-        <td @click="playerBackward">↓ <Keypress>S</Keypress></td>
-        <td @click="strafeRight">→ <Keypress>D</Keypress></td>
+        <KeyButton @click="strafeLeft" keypress="A">←</KeyButton>
+        <KeyButton @click="playerBackward" keypress="S">↓</KeyButton>
+        <KeyButton @click="strafeRight" keypress="D">→</KeyButton>
       </tr>
     </table>
 </template>
@@ -16,11 +16,11 @@
 <script>
 import Modes from "@/components/modes/modes.js";
 import playerUtil from '@/components/board/player.js';
-import Keypress from '@/components/Keypress.vue';
 import keyboard from '@/components/keyboard.js';
+import KeyButton from '@/components/ui/KeyButton.vue';
 
 export default {
-    components: { Keypress },
+    components: { KeyButton },
     mounted() {
         keyboard.registerAll({
             name: "WalkControls",
