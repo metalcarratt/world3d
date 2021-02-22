@@ -9,6 +9,7 @@ import Water from '@/models/water.js';
 import Grass from '@/models/grass.js';
 import Rock from '@/models/rock.js';
 import Tree from '@/models/tree.js';
+import renderBrush from './renderBrush.js';
 
 const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = "SW";
 
@@ -21,6 +22,7 @@ export default {
     props: {
         id: String,
         brush: String,
+        brusho: Object,
         size: String,
         orientation: {
             type: String,
@@ -43,6 +45,13 @@ export default {
         },
         orientation() {
             this.rotateCamera();
+        },
+        brusho: {
+            deep: true,
+            handler() {
+                window.console.log(`brusho updated: x=${this.brusho.x}, y=${this.brusho.y}, z=${this.brusho.z}`);
+                this.updateBlock();
+            }
         }
     },
     mounted() {
@@ -65,6 +74,45 @@ export default {
             placeCanvas.appendChild(this.renderer.domElement);
         });
 
+
+        const material = new THREE.LineBasicMaterial({
+            color: 0xff00ff
+        });
+        const SDN = 0;
+        const SDP = 1;
+        const BTM = 0;
+        const TP = 1;
+        const points = [
+            new THREE.Vector3(SDN, SDN, BTM), // bottom
+            new THREE.Vector3(SDN, SDP, BTM),
+            new THREE.Vector3(SDP, SDP, BTM),
+            new THREE.Vector3(SDP, SDN, BTM),
+            new THREE.Vector3(SDN, SDN, BTM),
+
+            new THREE.Vector3(SDN, SDN, TP), // up
+
+            new THREE.Vector3(SDN, SDP, TP),
+            new THREE.Vector3(SDN, SDP, BTM),
+            new THREE.Vector3(SDN, SDP, TP),
+
+            new THREE.Vector3(SDP, SDP, TP),
+            new THREE.Vector3(SDP, SDP, BTM),
+            new THREE.Vector3(SDP, SDP, TP),
+
+            new THREE.Vector3(SDP, SDN, TP),
+            new THREE.Vector3(SDP, SDN, BTM),
+            new THREE.Vector3(SDP, SDN, TP),
+
+            new THREE.Vector3(SDN, SDN, TP),
+
+            new THREE.Vector3(SDN, SDN, TP),
+            
+        ];
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        this.scene.add(line);
+
+
         this.updateBlock();
 
         this.rotateCamera();
@@ -79,7 +127,9 @@ export default {
         updateBlock() {
             window.console.log(`update brush: ${this.brush}`);
             this.scene.remove(this.block);
-            if (this.brush === "" || this.brush === "water") {
+            if (this.brusho !== undefined) {
+                this.block = renderBrush.mesh(this.brusho);
+            } else if (this.brush === "" || this.brush === "water") {
                 this.block = Water.mesh();
             } else if (this.brush === "grass") {
                 this.block = Grass.mesh();
@@ -89,57 +139,58 @@ export default {
                 this.block = Tree.mesh();
             }
             
-            this.block.position.x = 0;
-            this.block.position.y = 0;
+            // this.block.position.x = 0;
+            // this.block.position.y = 0;
             this.scene.add(this.block);
         },
         rotateCamera() {
             window.console.log(`rotate camera ${this.orientation}`);
+            const offset = 0.5;
             switch(this.orientation) {
                 case NE:
-                    this.camera.position.set(-DIAG, -DIAG, STRAIGHT);
+                    this.camera.position.set(-DIAG + offset, -DIAG + offset, STRAIGHT);
                     this.camera.rotation.x = pi( 0.25); //p15;
                     this.camera.rotation.y = pi(-0.20); //-p14;
                     this.camera.rotation.z = pi(-0.16); //-p215;
                     break;
                 case N:
-                    this.camera.position.set(0, -STRAIGHT, STRAIGHT);
+                    this.camera.position.set(0 + offset, -STRAIGHT + offset, STRAIGHT);
                     this.camera.rotation.x = pi( 0.3);
                     this.camera.rotation.y = 0;
                     this.camera.rotation.z = 0;
                     break;
                 case NW:
-                    this.camera.position.set(DIAG, -DIAG, STRAIGHT);
+                    this.camera.position.set(DIAG + offset, -DIAG + offset, STRAIGHT);
                     this.camera.rotation.x = pi( 0.25); //p25; //p15;
                     this.camera.rotation.y = pi( 0.20); //p20; //p14;
                     this.camera.rotation.z = pi( 0.16); //p18; //p215;
                     break;
                 case E:
-                    this.camera.position.set(-STRAIGHT, 0, STRAIGHT);
+                    this.camera.position.set(-STRAIGHT + offset, 0 + offset, STRAIGHT);
                     this.camera.rotation.x = 0;
                     this.camera.rotation.y = pi(-0.3);
                     this.camera.rotation.z = pi(-0.5);
                     break;
                 case SE:
-                    this.camera.position.set(-DIAG, DIAG, STRAIGHT);
+                    this.camera.position.set(-DIAG + offset, DIAG + offset, STRAIGHT);
                     this.camera.rotation.x = pi(-0.25); //-p15;
                     this.camera.rotation.y = pi(-0.20); //-p14;
                     this.camera.rotation.z = pi(-0.83); //-p78;
                     break;
                 case S:
-                    this.camera.position.set(0, STRAIGHT, STRAIGHT);
+                    this.camera.position.set(0 + offset, STRAIGHT + offset, STRAIGHT);
                     this.camera.rotation.x = pi(-0.3);
                     this.camera.rotation.y = 0;
                     this.camera.rotation.z = pi(-1); // * Math.PI;
                     break;
                 case SW:
-                    this.camera.position.set(DIAG, DIAG, STRAIGHT);
+                    this.camera.position.set(DIAG + offset, DIAG + offset, STRAIGHT);
                     this.camera.rotation.x = pi(-0.25);
                     this.camera.rotation.y = pi(0.20);
                     this.camera.rotation.z = pi(0.83);
                     break;
                 case W:
-                    this.camera.position.set(STRAIGHT, 0, STRAIGHT);
+                    this.camera.position.set(STRAIGHT + offset, 0 + offset, STRAIGHT);
                     this.camera.rotation.x = 0;
                     this.camera.rotation.y = pi(0.3);
                     this.camera.rotation.z = pi(0.5);

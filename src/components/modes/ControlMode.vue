@@ -105,9 +105,11 @@ export default {
             this.closeChooseBrushModal();
             this.selectedEditBrush = selectedBrush;
             this.showEditBrushModal = true;
+            Modes.modalOpened();
         },
         closeEditBrushModal() {
             this.showEditBrushModal = false;
+            Modes.modalClosed();
             this.openChooseBrushModal();
         }
     }
