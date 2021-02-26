@@ -5,10 +5,10 @@
 
 <script>
 import * as THREE from 'three';
-import Water from '@/models/water.js';
-import Grass from '@/models/grass.js';
-import Rock from '@/models/rock.js';
-import Tree from '@/models/tree.js';
+// import Water from '@/models/water.js';
+// import Grass from '@/models/grass.js';
+// import Rock from '@/models/rock.js';
+// import Tree from '@/models/tree.js';
 import renderBrush from './renderBrush.js';
 
 const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = "SW";
@@ -22,11 +22,15 @@ export default {
     props: {
         id: String,
         brush: String,
-        brusho: Object,
+        brusho: Array,
         size: String,
         orientation: {
             type: String,
             default: N
+        },
+        showFrame: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -35,7 +39,6 @@ export default {
             camera: null,
             renderer: null,
             block: null
-            // orientation: SW
         }
     },
     watch: {
@@ -74,44 +77,45 @@ export default {
             placeCanvas.appendChild(this.renderer.domElement);
         });
 
+        // window.console.log("show frame " + this.showFrame);
+        if (this.showFrame) {
+            const material = new THREE.LineBasicMaterial({
+                color: 0xff00ff
+            });
+            const SDN = 0;
+            const SDP = 1;
+            const BTM = 0;
+            const TP = 1;
+            const points = [
+                new THREE.Vector3(SDN, SDN, BTM), // bottom
+                new THREE.Vector3(SDN, SDP, BTM),
+                new THREE.Vector3(SDP, SDP, BTM),
+                new THREE.Vector3(SDP, SDN, BTM),
+                new THREE.Vector3(SDN, SDN, BTM),
 
-        const material = new THREE.LineBasicMaterial({
-            color: 0xff00ff
-        });
-        const SDN = 0;
-        const SDP = 1;
-        const BTM = 0;
-        const TP = 1;
-        const points = [
-            new THREE.Vector3(SDN, SDN, BTM), // bottom
-            new THREE.Vector3(SDN, SDP, BTM),
-            new THREE.Vector3(SDP, SDP, BTM),
-            new THREE.Vector3(SDP, SDN, BTM),
-            new THREE.Vector3(SDN, SDN, BTM),
+                new THREE.Vector3(SDN, SDN, TP), // up
 
-            new THREE.Vector3(SDN, SDN, TP), // up
+                new THREE.Vector3(SDN, SDP, TP),
+                new THREE.Vector3(SDN, SDP, BTM),
+                new THREE.Vector3(SDN, SDP, TP),
 
-            new THREE.Vector3(SDN, SDP, TP),
-            new THREE.Vector3(SDN, SDP, BTM),
-            new THREE.Vector3(SDN, SDP, TP),
+                new THREE.Vector3(SDP, SDP, TP),
+                new THREE.Vector3(SDP, SDP, BTM),
+                new THREE.Vector3(SDP, SDP, TP),
 
-            new THREE.Vector3(SDP, SDP, TP),
-            new THREE.Vector3(SDP, SDP, BTM),
-            new THREE.Vector3(SDP, SDP, TP),
+                new THREE.Vector3(SDP, SDN, TP),
+                new THREE.Vector3(SDP, SDN, BTM),
+                new THREE.Vector3(SDP, SDN, TP),
 
-            new THREE.Vector3(SDP, SDN, TP),
-            new THREE.Vector3(SDP, SDN, BTM),
-            new THREE.Vector3(SDP, SDN, TP),
+                new THREE.Vector3(SDN, SDN, TP),
 
-            new THREE.Vector3(SDN, SDN, TP),
-
-            new THREE.Vector3(SDN, SDN, TP),
-            
-        ];
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(geometry, material);
-        this.scene.add(line);
-
+                new THREE.Vector3(SDN, SDN, TP),
+                
+            ];
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(geometry, material);
+            this.scene.add(line);
+        }
 
         this.updateBlock();
 
@@ -125,26 +129,18 @@ export default {
             this.renderer.render(this.scene, this.camera);
         },
         updateBlock() {
-            window.console.log(`update brush: ${this.brush}`);
+            // window.console.log(`update brush: ${this.brush}`);
+            
             this.scene.remove(this.block);
             if (this.brusho !== undefined) {
+                // window.console.log("using brusho");
+                // window.console.log(this.brusho);
                 this.block = renderBrush.mesh(this.brusho);
-            } else if (this.brush === "" || this.brush === "water") {
-                this.block = Water.mesh();
-            } else if (this.brush === "grass") {
-                this.block = Grass.mesh();
-            } else if (this.brush === "rock") {
-                this.block = Rock.mesh();
-            } else if (this.brush === "tree") {
-                this.block = Tree.mesh();
-            }
-            
-            // this.block.position.x = 0;
-            // this.block.position.y = 0;
-            this.scene.add(this.block);
+                this.scene.add(this.block);
+            } 
         },
         rotateCamera() {
-            window.console.log(`rotate camera ${this.orientation}`);
+            // window.console.log(`rotate camera ${this.orientation}`);
             const offset = 0.5;
             switch(this.orientation) {
                 case NE:

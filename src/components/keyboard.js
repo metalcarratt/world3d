@@ -40,14 +40,14 @@ const create = function(condition, callback) {
 export default {
     TILDE, P, NUM0, NUM1, NUM2, NUM3, W, S, A, D, Q, E, SPACE,
     registerInterest({key, condition, callback}) {
-        window.console.log("register");
+        // window.console.log("register");
         if (!registeredParties[key]) {
             registeredParties[key] = [];
         }
         registeredParties[key].push(create(condition, callback));
     },
     registerAll({condition, registrations}) {
-        window.console.log("register all");
+        // window.console.log("register all");
         for (let reg of registrations) {
             if (!registeredParties[reg.key]) {
                 registeredParties[reg.key] = [];

@@ -51,11 +51,9 @@
 <script>
 
 const translateFromThreeJs = function(coord, length) {
-    const t = parseInt(
-        (coord * 100)
-        // + 50
-        - (length * 100 / 2)
-    );
+    const base = coord * 100;
+    const offset = length * 100 / 2;
+    const t = parseInt(base - offset);
     window.console.log(`translate from three js: coord=${coord}, length=${length}, result=${t}`);
     return t;
 }
@@ -120,8 +118,8 @@ export default {
                     h: (this.polygon.h / 100).toFixed(2),
                     texture: this.polygon.texture
                 }
-            // window.console.log("propogatePolygon");
-            // window.console.log(this.polygon);
+            window.console.log("propogatePolygon");
+            window.console.log(this.polygon);
             // window.console.log(prop);
             this.$emit('input', prop);
         }

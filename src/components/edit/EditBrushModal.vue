@@ -1,7 +1,7 @@
 <template>
     <Modal title="Edit Brush" @close="$emit('close')" size="medium">
         <div class="column">
-            <ShowBlock id="edit-brush" :brusho="polygon" size="s200" :orientation="cameraOrientation" />
+            <ShowBlock id="edit-brush" :brusho="polygon" size="s200" :orientation="cameraOrientation" :showFrame="true" />
             <table>
                 <tr>
                     <KeyButton @click="turnAnticlockwise" keypress="Q">◄</KeyButton>
@@ -17,7 +17,11 @@
         </div>
         <div class="column">
             <h3>Polygons:</h3>
-            <EditPolygon v-model="polygon" />
+            <span v-for="key in polygonKeys" :key="key">
+                <EditPolygon v-model="polygon[key]" />
+            </span>
+            <textarea disabled :value="'export default ' + JSON.stringify(polygon)">
+            </textarea>
         </div>
     </Modal>
 </template>
@@ -29,6 +33,8 @@ import KeyButton from '@/components/ui/KeyButton.vue';
 import keyboard from '@/components/keyboard.js';
 import EditPolygon from '@/components/edit/EditPolygon.vue';
 
+import modelUtil from '@/components/models.js';
+
 const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = "SW";
 
 export default {
@@ -37,10 +43,7 @@ export default {
     data() {
         return {
             cameraOrientation: N,
-            polygon: {
-                x: 0.5, y: 0.5, z: 0.5, w: 0.5, l: 0.5, h: 0.5,
-                texture: 'water'
-            }
+            polygon: []
         }
     },
     watch: {
@@ -49,9 +52,17 @@ export default {
             handler() {
                 window.console.log("polygon updated (parent)");
             }
+        },
+        editBrush() {
+            // window.console.log("update edit brush");
+            this.polygon = modelUtil.getModelForName(this.editBrush);
         }
     },
     mounted() {
+        this.polygon = modelUtil.getModelForName(this.editBrush);
+        // window.console.log("keys");
+        // window.console.log(this.polygonKeys);
+        
         keyboard.registerAll({
             condition: () => this.visible,
             registrations: [
@@ -63,6 +74,17 @@ export default {
                 { key: keyboard.E, callback: () => this.turnClockwise() }
             ]
         });
+    },
+    computed: {
+        polygonKeys() {
+            const keys = [];
+            if (this.polygon) {
+                for (let i = 0; i < this.polygon.length; i++) {
+                    keys.push(i);
+                }
+            }
+            return keys;
+        }
     },
     methods: {
         turnAnticlockwise() {

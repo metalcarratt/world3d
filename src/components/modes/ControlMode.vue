@@ -5,7 +5,7 @@
         <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
-            <ShowBlock id="brush" :brush="brush" @click.native="openChooseBrushModal" size="s100" />
+            <ShowBlock id="brush" :brusho="getBrushModel()" @click.native="openChooseBrushModal" size="s100" />
         </span>
         <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="closeChooseBrushModal" @edit="openEditBrushModal" />
         <EditBrushModal v-show="showEditBrushModal" :visible="showEditBrushModal" @close="closeEditBrushModal" :editBrush="selectedEditBrush" />
@@ -22,6 +22,7 @@ import Keypress from '@/components/Keypress.vue';
 import ChooseBrush from '@/components/edit/ChooseBrush.vue';
 import EditBrushModal from '@/components/edit/EditBrushModal.vue';
 import keyboard from '@/components/keyboard.js';
+import modelUtil from '@/components/models.js';
 
 export default {
     components: { ShowBlock, Keypress, ChooseBrush, EditBrushModal },
@@ -64,6 +65,9 @@ export default {
         });
     },
     methods: {
+        getBrushModel() {
+            return modelUtil.getModelForName(this.brush);
+        },
         isWalking() {
             return Modes.isWalking();
         },

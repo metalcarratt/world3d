@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import playerUtil from './player.js';
 import selectorUtil from './selector.js';
-import paletteUtil from '@/components/map/palette.js';
+// import paletteUtil from '@/components/map/palette.js';
+import modelUtil from '@/components/models.js';
 
 let group = new THREE.Group();
 
@@ -24,21 +25,7 @@ const getBoard = function() {
 }
 
 const updateBoard = function({x, y, brush}) {
-    // window.console.log("updateBoard, x=" + x + ", y=" + y + ", brush=" + brush);
-    switch (brush) {
-      case "water":
-        map[x][y] = 0;
-        break;
-      case "grass":
-        map[x][y] = 1;
-        break;
-      case "rock":
-        map[x][y] = 2;
-        break;
-      case "tree":
-        map[x][y] = 3;
-        break;
-    }
+    map[x][y] = modelUtil.getIdForName(brush);
 
     removeCube({x, y});
     drawCube({x, y});
@@ -52,7 +39,7 @@ const removeCube = function({x, y}) {
 const drawCube = function({x, y}) {
     let cube = null;
     const key = map[x][y];
-    cube = paletteUtil.palette[key].mesh();
+    cube = modelUtil.mesh(key);
     cube.name = cubeName(x, y);
             
     cube.position.x = x - midx;

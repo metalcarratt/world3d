@@ -1,6 +1,7 @@
 import RotateCamera from './rotateCamera.js';
 import board from './board.js';
-import Ghost from '@/models/ghost.js';
+// import Ghost from '@/models/ghost.js';
+import modelUtil from '@/components/models.js';
 
 const UP = 'up';
 
@@ -17,7 +18,8 @@ const playerLocation = {
 
 const initPlayer = function(camera) {
     myCamera = camera;
-    playerCube = Ghost.mesh();
+    playerCube = modelUtil.meshModel(modelUtil.getModelForName('Player'));
+    // playerCube = Ghost.mesh();
     positionPlayer();
     board.group.add(playerCube);
 }
@@ -26,12 +28,15 @@ const positionPlayer = function() {
     window.console.log("positioning player");
     playerCube.position.x = playerLocation.x - board.getMid().midx;
     playerCube.position.y = playerLocation.y - board.getMid().midy;
-    playerCube.position.z = playerLocation.z + 0.7;
+    playerCube.position.z = playerLocation.z; // + 0.7;
     window.console.log(`positioning player at ${playerLocation.x}, ${playerLocation.y}`);
     window.console.log(`midx: ${board.getMid().midx}, midy: ${board.getMid().midy}`);
     window.console.log(`player facing: ${playerOldFacing}, ${playerLocation.facing}`);
 
     board.group.position.x = 0 - playerCube.position.x;
+    // if (playerLocation.facing === 'right') {
+    //     board.group.position.x = board.group.position.x - 1;
+    // }
     board.group.position.y = 0 - playerCube.position.y;
     
     RotateCamera.rotate({
