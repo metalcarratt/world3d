@@ -54,16 +54,35 @@ const getPlayerLocation = function() {
     return playerLocation;
 }
 
+const moveAllowed = function(x, y) {
+    const modelIndex = board.getAt(x, y);
+    return modelUtil.isPassable(modelIndex);
+}
+
+const moveXAllowed = function(x) {
+    const allowed = x >= 0 && x < board.width() && moveAllowed(x, playerLocation.y);
+    window.console.log(`move x allowed: ${allowed} x=${x}`);
+    return allowed;
+}
+
+const moveYAllowed = function(y) {
+    const allowed = y >= 0 && y < board.height() && moveAllowed(playerLocation.x, y);
+    window.console.log(`move allowed: ${allowed} y=${y}`);
+    return allowed;
+}
+
 const updatePlayerLocation = function({x, y, facing}) {
-    if (x !== undefined) {
-        playerLocation.x = x;
-    }
-    if (y !== undefined) {
-        playerLocation.y = y;
-    }
     if (facing !== undefined) {
         playerLocation.facing = facing;
     }
+
+    if (x !== undefined && moveXAllowed(x)) {
+        playerLocation.x = x;
+    }
+    if (y !== undefined && moveYAllowed(y)) {
+        playerLocation.y = y;
+    }    
+    
     positionPlayer(this.camera);
 }
 

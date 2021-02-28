@@ -9,11 +9,11 @@ import playerModel from '@/models/player.model';
 const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TREE = 'Tree', PLAYER = 'Player';
 
 const models = [
-    { id: 0, name: WATER,  model: waterModel  },
-    { id: 1, name: GRASS,  model: grassModel  },
-    { id: 2, name: ROCK,   model: rockModel   },
-    { id: 3, name: TREE,   model: treeModel   },
-    { id: 4, name: PLAYER, model: playerModel }
+    { id: 0, name: WATER,  model: waterModel,  passable: false },
+    { id: 1, name: GRASS,  model: grassModel,  passable: true  },
+    { id: 2, name: ROCK,   model: rockModel,   passable: false },
+    { id: 3, name: TREE,   model: treeModel,   passable: false },
+    { id: 4, name: PLAYER, model: playerModel, passable: false }
 ]
 
 export default {
@@ -21,6 +21,7 @@ export default {
     getModelForName: (name) => models.find(m => m.name === name).model,
     getIdForName: (name) => models.find(m => m.name === name).id,
     getNameForId: (id) => models.find(m => m.id === id).name,
+    isPassable: (id) => models.find(m => m.id === id).passable,
     meshModel(model, translate = false) {
         return renderBrush.mesh(model, translate);
     },

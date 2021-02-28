@@ -103,5 +103,8 @@ export default {
     draw,
     getMid, group,
     newBoard,
-    getBoard
+    getBoard,
+    width: () => map.length,
+    height: () => map[0].length,
+    getAt: (x, y) => map[x][y]
 }
