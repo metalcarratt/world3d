@@ -39,7 +39,7 @@ const removeCube = function({x, y}) {
 const drawCube = function({x, y}) {
     let cube = null;
     const key = map[x][y];
-    cube = modelUtil.mesh(key);
+    cube = modelUtil.mesh(key, true);
     cube.name = cubeName(x, y);
             
     cube.position.x = x - midx;

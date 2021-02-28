@@ -8,55 +8,27 @@ import playerModel from '@/models/player.model';
 
 const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TREE = 'Tree', PLAYER = 'Player';
 
+const models = [
+    { id: 0, name: WATER,  model: waterModel  },
+    { id: 1, name: GRASS,  model: grassModel  },
+    { id: 2, name: ROCK,   model: rockModel   },
+    { id: 3, name: TREE,   model: treeModel   },
+    { id: 4, name: PLAYER, model: playerModel }
+]
+
 export default {
     allModels: [WATER, GRASS, ROCK, TREE, PLAYER],
-    getModelForName(name) {
-        // window.console.log(`getting model for ${name}`);
-        switch (name) {
-            case WATER:
-                return waterModel;
-            case GRASS:
-                return grassModel;
-            case ROCK:
-                return rockModel;
-            case TREE:
-                return treeModel;
-            case PLAYER:
-                return playerModel;
-        }
+    getModelForName: (name) => models.find(m => m.name === name).model,
+    getIdForName: (name) => models.find(m => m.name === name).id,
+    getNameForId: (id) => models.find(m => m.id === id).name,
+    meshModel(model, translate = false) {
+        return renderBrush.mesh(model, translate);
     },
-    getIdForName(name) {
-        switch (name) {
-            case WATER:
-                return 0;
-            case GRASS:
-                return 1;
-            case ROCK:
-                return 2;
-            case TREE:
-                return 3;
-        }
-    },
-    getNameForId(id) {
-        switch (id) {
-            case 0:
-                return WATER;
-            case 1:
-                return GRASS;
-            case 2:
-                return ROCK;
-            case 3:
-                return TREE;
-        }
-    },
-    meshModel(model) {
-        return renderBrush.mesh(model);
-    },
-    mesh(id) {
+    mesh(id, translate = false) {
         // window.console.log(`model.mesh ${id}`);
         const name = this.getNameForId(id);
         const model = this.getModelForName(name);
         // window.console.log(model);
-        return renderBrush.mesh(model);
+        return renderBrush.mesh(model, translate);
     }
 }

@@ -44,6 +44,8 @@ export default {
         }
     },
     mounted() {
+        this.brush = 'Water';
+
         keyboard.registerInterest({
             name: "ControlMode",
             key: keyboard.TILDE,
