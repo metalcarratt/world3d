@@ -42,7 +42,7 @@ const saveToWorldListAndGetId = function(worldName) {
     }
 }
 
-const saveMap = function(worldName) {
+const saveMap = function(worldName, starting) {
     window.console.log("save map");
     const worldId = saveToWorldListAndGetId(worldName);
 
@@ -51,7 +51,8 @@ const saveMap = function(worldName) {
     const board = boardUtil.getBoard();
     const world = {
         map: board,
-        name: worldName
+        name: worldName,
+        starting
     }
     setWorld(worldId, world);
 }

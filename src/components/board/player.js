@@ -19,7 +19,12 @@ const playerLocation = {
 const initPlayer = function(camera) {
     myCamera = camera;
     playerCube = modelUtil.meshModel(modelUtil.getModelForName('Player'), true);
-    // playerCube = Ghost.mesh();
+    const starting = board.getStarting();
+    playerLocation.x = parseInt(starting.x);
+    playerLocation.y = parseInt(starting.y);
+    if (starting.facing) {
+        playerLocation.facing = starting.facing;
+    }
     positionPlayer();
     board.group.add(playerCube);
 }

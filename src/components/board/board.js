@@ -8,7 +8,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        mapname: ''
+        mapname: '',
+        starting: {
+            x: 1,
+            y: 1,
+            facing: 'up'
+        }
     }
 });
 
@@ -89,6 +94,9 @@ const newBoard = function(newMap) {
 
     map = newMap.map;
     store.state.mapname = newMap.name;
+    if (newMap.starting) {
+        store.state.starting = newMap.starting;
+    }
     
     draw();
 
@@ -142,5 +150,7 @@ export default {
     changeName: (name) => store.state.mapname = name,
     width: () => map.length,
     height: () => map[0].length,
-    getAt: (x, y) => map[x][y]
+    getAt: (x, y) => map[x][y],
+    getStarting: () => store.state.starting,
+    setStarting: (starting) => store.state.starting = starting
 }

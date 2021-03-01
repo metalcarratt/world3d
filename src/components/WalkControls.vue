@@ -56,6 +56,8 @@ export default {
     methods: {
         playerForward() {
             const playerLocation = playerUtil.getPlayerLocation();
+            window.console.log("player location");
+            window.console.log(playerLocation);
             switch (playerLocation.facing) {
                 case 'up':
                     playerUtil.updatePlayerLocation({y: playerLocation.y + 1});

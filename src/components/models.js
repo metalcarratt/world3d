@@ -28,12 +28,13 @@ export default {
     getModelForName: (name) => models.find(m => m.name === name).model,
     getIdForName: (name) => models.find(m => m.name === name).id,
     getNameForId: (id) => models.find(m => m.id === id).name,
-    isPassable: (id) => models.find(m => m.id === id).passable,
-    meshModel(model, translate = false) {
-        return renderBrush.mesh(model, translate);
+    isPassable: (id) => {
+        window.console.log("in ispassable");
+        window.console.log(`id: ${id}`);
+        return models.find(m => m.id === id).passable;
     },
+    meshModel: (model, translate = false) => renderBrush.mesh(model, translate),
     mesh(id, translate = false) {
-        // window.console.log(`model.mesh ${id}`);
         const name = this.getNameForId(id);
         const model = this.getModelForName(name);
         // window.console.log(model);

@@ -65,7 +65,7 @@ export default {
         window.console.log("Edit brush: " + this.editBrush);
         if (this.editBrush === 'new') {
             this.polygon = [];
-        } else {
+        } else if (this.editBrush) {
             this.polygon = modelUtil.getModelForName(this.editBrush);
         }
         // window.console.log("keys");
