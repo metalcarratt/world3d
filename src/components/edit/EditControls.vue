@@ -139,7 +139,8 @@ export default {
             this.$emit('updateBoard', {
                 x: selectorLocation.x,
                 y: selectorLocation.y,
-                brush: brush.getBrush()
+                brush: brush.getBrush(),
+                orientation: brush.getOrientation()
             });
         }
     }

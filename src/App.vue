@@ -35,8 +35,8 @@ export default {
     }
   },
   methods: {
-    updateBoard({x, y, brush}) {
-      board.updateBoard({x, y, brush});
+    updateBoard({x, y, brush, orientation}) {
+      board.updateBoard({x, y, brush, orientation});
     }
   }
 }

@@ -5,10 +5,6 @@
 
 <script>
 import * as THREE from 'three';
-// import Water from '@/models/water.js';
-// import Grass from '@/models/grass.js';
-// import Rock from '@/models/rock.js';
-// import Tree from '@/models/tree.js';
 import renderBrush from './renderBrush.js';
 
 const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = "SW";
@@ -59,6 +55,7 @@ export default {
     },
     mounted() {
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color( 0x2d3436 );
         if (this.size === 's100') {
             this.camera = new THREE.PerspectiveCamera(75, 100 / 100, 0.1, 1000);
         } else if (this.size === 's200') {

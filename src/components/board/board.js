@@ -24,8 +24,12 @@ const getBoard = function() {
     return map;
 }
 
-const updateBoard = function({x, y, brush}) {
-    map[x][y] = modelUtil.getIdForName(brush);
+const updateBoard = function({x, y, brush, orientation}) {
+    if (orientation === 'N') {
+        map[x][y] = modelUtil.getIdForName(brush);
+    } else {
+        map[x][y] = { orientation, id: modelUtil.getIdForName(brush) };
+    }
 
     removeCube({x, y});
     drawCube({x, y});
@@ -39,7 +43,27 @@ const removeCube = function({x, y}) {
 const drawCube = function({x, y}) {
     let cube = null;
     const key = map[x][y];
-    cube = modelUtil.mesh(key, true);
+    if (typeof key === 'object') {
+        cube = modelUtil.mesh(key.id, true);
+        switch (key.orientation) {
+            case 'S':
+                cube.rotation.z = Math.PI;
+                break;
+            case 'E':
+                cube.rotation.z = Math.PI / 2 * -1;
+                break;
+            case 'W':
+                cube.rotation.z = Math.PI / 2;
+                break;
+            case 'N':
+            default:
+                cube.rotation.z = 0;
+                break;
+        }
+    } else if (typeof key === 'number') {
+        cube = modelUtil.mesh(key, true);
+    }
+    
     cube.name = cubeName(x, y);
             
     cube.position.x = x - midx;

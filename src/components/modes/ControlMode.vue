@@ -5,7 +5,11 @@
         <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
             <h2>Brush</h2><Keypress :inline="true">P</Keypress>
-            <ShowBlock id="brush" :brusho="getBrushModel()" @click.native="openChooseBrushModal" size="s100" />
+            <ShowBlock id="brush" :brusho="getBrushModel()" @click.native="openChooseBrushModal" size="s100" :orientation="brushOrientation" />
+            <button @click="brushOrientation = 'N'">N</button>
+            <button @click="brushOrientation = 'S'">S</button>
+            <button @click="brushOrientation = 'E'">E</button>
+            <button @click="brushOrientation = 'W'">W</button>
         </span>
         <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="closeChooseBrushModal" @edit="openEditBrushModal" />
         <EditBrushModal v-show="showEditBrushModal" :visible="showEditBrushModal" @close="closeEditBrushModal" :editBrush="selectedEditBrush" />
@@ -40,6 +44,14 @@ export default {
             },
             get() {
                 return brush.getBrush();
+            }
+        },
+        brushOrientation: {
+            set(newOrientation) {
+                brush.setOrientation(newOrientation);
+            },
+            get() {
+                return brush.getOrientation();
             }
         }
     },

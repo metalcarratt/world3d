@@ -9,23 +9,36 @@ const WATER = "water";
 
 const brush = new Vuex.Store({
     state: {
-        brush: WATER
+        brush: WATER,
+        orientation: 'N'
     },
     getters: {
         brush(state) {
             return state.brush;
+        },
+        orientation(state) {
+            return state.orientation;
         }
     },
     mutations: {
         setBrush (state, newBrush) {
             state.brush = newBrush;
+        },
+        setOrientation(state, newOrientation) {
+            state.orientation = newOrientation;
         }
     },
     getBrush() {
         return this.getters.brush(this.state);
     },
+    getOrientation() {
+        return this.getters.orientation(this.state);
+    },
     setBrush(newBrush) {
         this.commit('setBrush', newBrush);
+    },
+    setOrientation(newOrientation) {
+        this.commit('setOrientation', newOrientation);
     }
 });
 
@@ -35,5 +48,11 @@ export default {
     },
     setBrush(newBrush) {
         brush.commit('setBrush', newBrush);
+    },
+    getOrientation() {
+        return brush.getters.orientation;
+    },
+    setOrientation(newOrientation) {
+        brush.commit('setOrientation', newOrientation);
     }
 }
