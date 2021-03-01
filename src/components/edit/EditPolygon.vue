@@ -18,7 +18,7 @@
         </span>
 
         <span class="row">
-            <label>Position:</label>
+            <label>Position & Size:</label>
             <fieldset>
                 <label class="sub">x: </label><input type="text" size="1" v-model="polygon.x"  />
             </fieldset>
@@ -28,11 +28,6 @@
             <fieldset>
                 <label class="sub">z: </label><input type="text" size="1" v-model="polygon.z"  />
             </fieldset>
-        </span>
-        
-        <span class="row">
-            <label>Size:</label>
-        
             <fieldset>
                 <label class="sub">w: </label><input type="text" size="1" v-model="polygon.w"  />
             </fieldset>

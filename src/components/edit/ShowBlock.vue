@@ -60,6 +60,8 @@ export default {
             this.camera = new THREE.PerspectiveCamera(75, 100 / 100, 0.1, 1000);
         } else if (this.size === 's200') {
             this.camera = new THREE.PerspectiveCamera(75, 200 / 200, 0.1, 1000);
+        } else if (this.size === 's400') {
+            this.camera = new THREE.PerspectiveCamera(75, 400 / 400, 0.1, 1000);
         }
         
         this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -67,6 +69,8 @@ export default {
             this.renderer.setSize(100, 100);
         } else if (this.size === 's200') {
             this.renderer.setSize(200, 200);
+        } else if (this.size === 's400') {
+            this.renderer.setSize(400, 400);
         }
             
         this.$nextTick(function () {

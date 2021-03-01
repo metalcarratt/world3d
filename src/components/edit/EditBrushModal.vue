@@ -1,7 +1,7 @@
 <template>
-    <Modal title="Edit Brush" @close="$emit('close')" size="medium">
+    <Modal title="Edit Brush" @close="$emit('close')" size="large">
         <div class="column">
-            <ShowBlock id="edit-brush" :brusho="polygon" size="s200" :orientation="cameraOrientation" :showFrame="true" />
+            <ShowBlock id="edit-brush" :brusho="polygon" size="s400" :orientation="cameraOrientation" :showFrame="true" />
             <table>
                 <tr>
                     <KeyButton @click="turnAnticlockwise" keypress="Q">◄</KeyButton>
@@ -148,5 +148,11 @@ export default {
 h3 {
     font-family: sans-serif;
     margin-top: 0;
+}
+
+textarea {
+    width: 500px;
+    height: 150px;
+    margin-top: 15px;
 }
 </style>

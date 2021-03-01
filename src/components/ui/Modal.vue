@@ -45,6 +45,10 @@ div.modal.medium {
     width: 600px;
 }
 
+div.modal.large {
+    width: 1000px;
+}
+
 /* title */
 h2 {
     font-size: 16px;
