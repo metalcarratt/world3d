@@ -46,7 +46,7 @@ div.modal.medium {
 }
 
 div.modal.large {
-    width: 1000px;
+    width: 1100px;
 }
 
 /* title */

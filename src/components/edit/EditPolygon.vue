@@ -18,24 +18,30 @@
         </span>
 
         <span class="row">
-            <label>Position & Size:</label>
+            <label>Size & Position:</label>
             <fieldset>
-                <label class="sub">x: </label><input type="text" size="1" v-model="polygon.x"  />
+                <label class="sub">x: </label>
+                <AdjustableInput v-model="polygon.x" @propogate="propogatePolygon" />
             </fieldset>
             <fieldset>
-                <label class="sub">y: </label><input type="text" size="1" v-model="polygon.y"  />
+                <label class="sub">y: </label>
+                <AdjustableInput v-model="polygon.y" @propogate="propogatePolygon" />
             </fieldset>
             <fieldset>
-                <label class="sub">z: </label><input type="text" size="1" v-model="polygon.z"  />
+                <label class="sub">z: </label>
+                <AdjustableInput v-model="polygon.z" @propogate="propogatePolygon" />
             </fieldset>
             <fieldset>
-                <label class="sub">w: </label><input type="text" size="1" v-model="polygon.w"  />
+                <label class="sub">w: </label>
+                <AdjustableInput v-model="polygon.w" @propogate="propogatePolygon" />
             </fieldset>
             <fieldset>
-                <label class="sub">l: </label><input type="text" size="1" v-model="polygon.l"  />
+                <label class="sub">l: </label>
+                <AdjustableInput v-model="polygon.l" @propogate="propogatePolygon" />
             </fieldset>
             <fieldset>
-                <label class="sub">h: </label><input type="text" size="1" v-model="polygon.h"  />
+                <label class="sub">h: </label>
+                <AdjustableInput v-model="polygon.h" @propogate="propogatePolygon" />
             </fieldset>
         </span>
         <button @click="propogatePolygon">Update</button>
@@ -44,6 +50,7 @@
 </template>
 
 <script>
+import AdjustableInput from '@/components/ui/AdjustableInput.vue';
 
 const translateFromThreeJs = function(coord, length) {
     const base = coord * 100;
@@ -63,9 +70,10 @@ const translateToThreeJs = function(coord, length) {
 
 export default {
     props: ['value'],
+    components: { AdjustableInput },
     data() {
         return {
-            polygon: {} //this.value
+            polygon: {}
         }
     },
     mounted() {
@@ -95,15 +103,6 @@ export default {
             // window.console.log(this.polygon);
         },
         propogatePolygon() {
-            // this.$emit('input', {
-            //         x: translateToThreeJs(this.polygon.x, this.polygon.w),
-            //         y: translateToThreeJs(this.polygon.y, this.polygon.l),
-            //         z: translateToThreeJs(this.polygon.z, this.polygon.h),
-            //         w: this.polygon.w / 100,
-            //         l: this.polygon.l / 100,
-            //         h: this.polygon.h / 100,
-            //         texture: this.polygon.texture
-            //     });
             const prop = {
                     x: translateToThreeJs(this.polygon.x, this.polygon.w),
                     y: translateToThreeJs(this.polygon.y, this.polygon.l),
@@ -156,7 +155,5 @@ label.sub {
     font-weight: 400;
 }
 
-input[type="text"] {
-    width: 30px;
-}
+
 </style>
