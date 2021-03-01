@@ -1,8 +1,16 @@
 import * as THREE from 'three';
 import playerUtil from './player.js';
 import selectorUtil from './selector.js';
-// import paletteUtil from '@/components/map/palette.js';
 import modelUtil from '@/components/models.js';
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state: {
+        mapname: ''
+    }
+});
 
 let group = new THREE.Group();
 
@@ -79,7 +87,9 @@ const newBoard = function(newMap) {
         group.remove(child);
     }
 
-    map = newMap;
+    map = newMap.map;
+    store.state.mapname = newMap.name;
+    
     draw();
 
     playerUtil.initPlayer(myCamera);
@@ -128,6 +138,8 @@ export default {
     getMid, group,
     newBoard,
     getBoard,
+    getName: () => store.state.mapname,
+    changeName: (name) => store.state.mapname = name,
     width: () => map.length,
     height: () => map[0].length,
     getAt: (x, y) => map[x][y]

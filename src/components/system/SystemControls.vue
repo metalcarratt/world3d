@@ -2,41 +2,49 @@
     <div class="menu">
         <nav class="main">
             <NavLink @click="clickMap" :selected="mapSelected">Map</NavLink>
+            <NavLink @click="clickMapEdit">Edit</NavLink>
+            <NavLink @click="clickMapSave">Save</NavLink>
+            <h1>{{ mapName }}</h1>
         </nav>
         <nav class="sub" v-if="mapSelected">
             <NavLink @click="clickMapNew">New</NavLink>
             <NavLink @click="clickMapLoad">Load</NavLink>
-            <NavLink @click="clickMapSave">Save</NavLink>
         </nav>
         <NewMapModal v-show="showNewMapModal" @close="closeNewMapModal" />
-        <SaveMapModal v-show="showSaveMapModal" @close="closeSaveMapModal" />
         <LoadMapModal v-show="showLoadMapModal" @close="closeLoadMapModal" ref="loadMapModal" />
+        <EditMapModal v-show="showEditMapModal" @close="closeEditMapModal" />
     </div>
 </template>
 
 <script>
 import NewMapModal from '@/components/map/NewMapModal.vue';
-import SaveMapModal from '@/components/map/SaveMapModal.vue';
 import LoadMapModal from '@/components/map/LoadMapModal.vue';
+import EditMapModal from '@/components/map/EditMapModal.vue';
 import NavLink from './NavLink.vue';
 import modes from '@/components/modes/modes.js';
+import boardUtil from '@/components/board/board.js';
+import mapUtil from '@/components/map/mapUtil.js';
 
 const NONE = "none";
 const MAP = "map";
 
 export default {
-    components: { NewMapModal, SaveMapModal, LoadMapModal, NavLink },
+    components: { NewMapModal, LoadMapModal, EditMapModal, NavLink },
     data() {
         return {
             selected: NONE,
             showNewMapModal: false,
-            showSaveMapModal: false,
+            showEditMapModal: false,
             showLoadMapModal: false
         }
     },
     computed: {
         mapSelected() {
             return this.selected == MAP;
+        },
+        mapName() {
+            const name = boardUtil.getName();
+            return name ? name : "Unnamed World";
         }
     },
     methods: {
@@ -52,18 +60,24 @@ export default {
             this.showNewMapModal = true;
             modes.modalOpened();
         },
+        clickMapEdit() {
+            this.selected = NONE;
+            this.showEditMapModal = true;
+            modes.modalOpened();
+        },
         closeNewMapModal() {
             this.showNewMapModal = false;
             modes.modalClosed();
         },
         clickMapSave() {
             this.selected = NONE;
-            this.showSaveMapModal = true;
-            modes.modalOpened();
-        },
-        closeSaveMapModal() {
-            this.showSaveMapModal = false;
-            modes.modalClosed();
+            const name = boardUtil.getName();
+            if (name) {
+                mapUtil.saveMap(name);
+            } else {
+                this.showEditMapModal = true;
+                modes.modalOpened();
+            }
         },
         clickMapLoad() {
             this.$refs['loadMapModal'].loadMaps();
@@ -73,6 +87,10 @@ export default {
         },
         closeLoadMapModal() {
             this.showLoadMapModal = false;
+            modes.modalClosed();
+        },
+        closeEditMapModal() {
+            this.showEditMapModal = false;
             modes.modalClosed();
         }
     }
@@ -99,5 +117,15 @@ nav.sub {
 
 span.keypress {
     margin-left: 6px;
+}
+
+h1 {
+    display: inline-block;
+    background: white;
+    padding: 6px 31px;
+    border-radius: 18px;
+    font-family: sans-serif;
+    font-size: 18px;
+    margin-left: 68px;
 }
 </style>

@@ -11,6 +11,7 @@
             </li>
         </ul>
         <ModalButton @click="loadMap">Load</ModalButton>
+        <ModalButton @click="removeMap">Remove</ModalButton>
     </Modal>
 </template>
 
@@ -36,10 +37,25 @@ export default {
         },
         loadMap() {
             if (this.selectedWorld !== '') {
-                const map = mapUtil.loadMap(this.selectedWorld);
-                boardUtil.newBoard(map);
+                const world = mapUtil.loadMap(this.selectedWorld);
+                window.console.log("found " + typeof world);
+                if (Array.isArray(world)) {
+                    window.console.log('found array');
+                    boardUtil.newBoard({
+                        map: world,
+                        name: this.selectedWorld
+                    });
+                } else {
+                    window.console.log('found object');
+                    window.console.log(world);
+                    boardUtil.newBoard(world);
+                }
             }
             this.$emit('close');
+        },
+        removeMap() {
+            mapUtil.removeMap(this.selectedWorld);
+            this.loadMaps();
         }
     }
 }
