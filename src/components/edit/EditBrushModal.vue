@@ -23,6 +23,9 @@
             <textarea disabled :value="'export default ' + JSON.stringify(polygon)">
             </textarea>
         </div>
+        <div>
+            <ModalButton @click="addPolygon">Add Polygon</ModalButton>
+        </div>
     </Modal>
 </template>
 
@@ -59,7 +62,12 @@ export default {
         }
     },
     mounted() {
-        this.polygon = modelUtil.getModelForName(this.editBrush);
+        window.console.log("Edit brush: " + this.editBrush);
+        if (this.editBrush === 'new') {
+            this.polygon = [];
+        } else {
+            this.polygon = modelUtil.getModelForName(this.editBrush);
+        }
         // window.console.log("keys");
         // window.console.log(this.polygonKeys);
         
@@ -87,6 +95,9 @@ export default {
         }
     },
     methods: {
+        addPolygon() {
+            this.polygon.push({"x":"0.05","y":"0.05","z":"0.05","w":"0.10","l":"0.10","h":"0.10","texture":"water"});
+        },
         turnAnticlockwise() {
             switch(this.cameraOrientation) {
                 case N:  this.cameraOrientation = NE;  break;

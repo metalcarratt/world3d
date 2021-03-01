@@ -9,26 +9,11 @@
             {{ model }}
             <ShowBlock :id="'brush-' + model" :brusho="getModel(model)" size="s100"/>
         </div>
-        <!--
-        <div :class="['item', selected('water') ? 'selected' : '']" @click="selectedBrush = 'water'">
-            <ShowBlock id="brush-water" brush="water" size="s100" />
-        </div>
 
-        <div :class="['item', selected('grass') ? 'selected' : '']" @click="selectedBrush = 'grass'">
-            <ShowBlock id="brush-grass" brush="grass" size="s100" />
-        </div>
-
-        <div :class="['item', selected('rock') ? 'selected' : '']" @click="selectedBrush = 'rock'">
-            <ShowBlock id="brush-rock" brush="rock" size="s100" />
-        </div>
-
-        <div :class="['item', selected('tree') ? 'selected' : '']" @click="selectedBrush = 'tree'">
-            <ShowBlock id="brush-tree" brush="tree" size="s100" />
-        </div>
-        -->
         <div>
             <ModalButton @click="$emit('changeTo', selectedBrush)">Choose</ModalButton>
             <ModalButton @click="$emit('edit', selectedBrush)">Edit</ModalButton>
+            <ModalButton @click="$emit('edit', 'new')">New</ModalButton>
         </div>
     </Modal>
 </template>
