@@ -12,7 +12,12 @@
             <button @click="brushOrientation = 'W'">W</button>
         </span>
         <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="closeChooseBrushModal" @edit="openEditBrushModal" />
-        <EditBrushModal v-show="showEditBrushModal" :visible="showEditBrushModal" @close="closeEditBrushModal" :editBrush="selectedEditBrush" />
+        <EditBrushModal
+            v-show="showEditBrushModal"
+            :visible="showEditBrushModal"
+            :editBrush="selectedEditBrush"
+            @close="closeEditBrushModal"
+        />
     </div>
 </template>
 
@@ -26,7 +31,7 @@ import Keypress from '@/components/Keypress.vue';
 import ChooseBrush from '@/components/edit/ChooseBrush.vue';
 import EditBrushModal from '@/components/edit/EditBrushModal.vue';
 import keyboard from '@/components/keyboard.js';
-import modelUtil from '@/components/models.js';
+import modelUtil from '@/components/terrain/models.js';
 
 export default {
     components: { ShowBlock, Keypress, ChooseBrush, EditBrushModal },

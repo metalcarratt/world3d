@@ -8,9 +8,10 @@ import playerModel from '@/models/player.model';
 import riverModel from '@/models/river.model';
 import riverBendModel from '@/models/river-bend.model';
 import bridgeModel from '@/models/bridge.model';
+import marbleModel from '@/models/marble.model';
 
 const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TREE = 'Tree', PLAYER = 'Player', RIVER = 'River', RIVER_BEND = "River Bend",
-    BRIDGE = 'Bridge';
+    BRIDGE = 'Bridge', MARBLE = 'Marble';
 
 const models = [
     { id: 0, name: WATER,      model: waterModel,     passable: false },
@@ -20,12 +21,22 @@ const models = [
     { id: 4, name: PLAYER,     model: playerModel,    passable: false },
     { id: 5, name: RIVER,      model: riverModel,     passable: false },
     { id: 6, name: RIVER_BEND, model: riverBendModel, passable: false },
-    { id: 7, name: BRIDGE,     model: bridgeModel,    passable: true }
+    { id: 7, name: BRIDGE,     model: bridgeModel,    passable: true },
+    { id: 8, name: MARBLE,     model: marbleModel,    passable: false }
 ];
 
 export default {
-    allModels: [WATER, GRASS, ROCK, TREE, PLAYER, RIVER, RIVER_BEND, BRIDGE],
-    getModelForName: (name) => models.find(m => m.name === name).model,
+    allModels: [WATER, GRASS, ROCK, TREE, RIVER, RIVER_BEND, BRIDGE, MARBLE],
+    specialModels: [PLAYER],
+    getModelForName: (name) => {
+        const model = models.find(m => m.name === name);
+        if (model) {
+            return model.model;
+        } else {
+            return undefined;
+        }
+        
+    },
     getIdForName: (name) => models.find(m => m.name === name).id,
     getNameForId: (id) => models.find(m => m.id === id).name,
     isPassable: (id) => {

@@ -1,7 +1,7 @@
 import RotateCamera from './rotateCamera.js';
 import board from './board.js';
 // import Ghost from '@/models/ghost.js';
-import modelUtil from '@/components/models.js';
+import modelUtil from '@/components/terrain/models.js';
 
 const UP = 'up';
 

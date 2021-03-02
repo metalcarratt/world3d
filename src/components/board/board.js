@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import playerUtil from './player.js';
 import selectorUtil from './selector.js';
-import modelUtil from '@/components/models.js';
+import modelUtil from '@/components/terrain/models.js';
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);

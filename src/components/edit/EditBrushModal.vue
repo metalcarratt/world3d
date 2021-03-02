@@ -1,5 +1,9 @@
 <template>
     <Modal title="Edit Brush" @close="$emit('close')" size="large">
+        <fieldset>
+            <label>Name: </label>
+            <input type="text" v-model="name" />
+        </fieldset>
         <div class="column">
             <ShowBlock id="edit-brush" :brusho="polygon" size="s400" :orientation="cameraOrientation" :showFrame="true" />
             <table>
@@ -24,6 +28,7 @@
             </textarea>
         </div>
         <div>
+            <ModalButton @click="saveBrush">Save Brush</ModalButton>
             <ModalButton @click="addPolygon">Add Polygon</ModalButton>
         </div>
     </Modal>
@@ -36,7 +41,8 @@ import KeyButton from '@/components/ui/KeyButton.vue';
 import keyboard from '@/components/keyboard.js';
 import EditPolygon from '@/components/edit/EditPolygon.vue';
 
-import modelUtil from '@/components/models.js';
+import modelUtil from '@/components/terrain/models.js';
+import terrainUtil from '@/components/terrain/terrain.js';
 
 const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = "SW";
 
@@ -46,7 +52,8 @@ export default {
     data() {
         return {
             cameraOrientation: N,
-            polygon: []
+            polygon: [],
+            name: ''
         }
     },
     watch: {
@@ -57,27 +64,17 @@ export default {
             }
         },
         editBrush() {
-            // window.console.log("update edit brush");
-            this.polygon = modelUtil.getModelForName(this.editBrush);
+            this.updateEditBrush();
         }
     },
     mounted() {
-        window.console.log("Edit brush: " + this.editBrush);
-        if (this.editBrush === 'new') {
-            this.polygon = [];
-        } else if (this.editBrush) {
-            this.polygon = modelUtil.getModelForName(this.editBrush);
-        }
+       this.updateEditBrush();
         // window.console.log("keys");
         // window.console.log(this.polygonKeys);
         
         keyboard.registerAll({
             condition: () => this.visible,
             registrations: [
-                // { key: keyboard.W, callback: () => this.raiseHeight() },
-                // { key: keyboard.S, callback: () => this.lowerHeight() },
-                // { key: keyboard.A, callback: () => this.zoomOut() },
-                // { key: keyboard.D, callback: () => this.zoomIn() },
                 { key: keyboard.Q, callback: () => this.turnAnticlockwise() },
                 { key: keyboard.E, callback: () => this.turnClockwise() }
             ]
@@ -95,6 +92,18 @@ export default {
         }
     },
     methods: {
+        updateEditBrush() {
+            window.console.log("Edit brush: " + this.editBrush);
+            if (this.editBrush === 'new') {
+                this.polygon = [];
+            } else if (this.editBrush) {
+                this.polygon = modelUtil.getModelForName(this.editBrush);
+                if (!this.polygon) {
+                    this.polygon = terrainUtil.loadTerrain(this.editBrush).polygon;
+                }
+                this.name = this.editBrush;
+            }
+        },
         addPolygon() {
             this.polygon.push({"x":"0.05","y":"0.05","z":"0.05","w":"0.10","l":"0.10","h":"0.10","texture":"water"});
         },
@@ -122,17 +131,9 @@ export default {
                 case NE: this.cameraOrientation =  N;  break;
             }
         },
-        raiseHeight() {
-
-        },
-        lowerHeight() {
-
-        },
-        zoomIn() {
-
-        },
-        zoomOut() {
-
+        saveBrush() {
+            terrainUtil.saveTerrain(this.name, this.polygon);
+            this.$emit('close');
         }
     }
 }
