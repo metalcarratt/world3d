@@ -61,7 +61,7 @@ export default {
                     }
                 }
             }
-            boardUtil.newBoard(map);
+            boardUtil.newBoard({map});
             this.$emit('close');
         }
     }

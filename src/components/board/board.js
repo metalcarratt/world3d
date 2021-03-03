@@ -106,6 +106,7 @@ const newBoard = function(newMap) {
 
 const draw = function() {
     window.console.log("draw");
+    
     const width = map.length;
     const height = map[0].length;
     for (var x = 0; x < width; x++) {
