@@ -9,7 +9,7 @@ Vue.use(Vuex)
 
 Vue.config.productionTip = false
 
-import ModalButton from '@/components/ui/ModalButton.vue';
+import ModalButton from '@/components/ui/modal/ModalButton.vue';
 Vue.component("ModalButton", ModalButton);
 
 new Vue({

@@ -10,32 +10,23 @@
             <NavLink @click="clickMapNew">New</NavLink>
             <NavLink @click="clickMapLoad">Load</NavLink>
         </nav>
-        <NewMapModal v-show="showNewMapModal" @close="closeNewMapModal" />
-        <LoadMapModal v-show="showLoadMapModal" @close="closeLoadMapModal" ref="loadMapModal" />
-        <EditMapModal v-show="showEditMapModal" @close="closeEditMapModal" />
     </div>
 </template>
 
 <script>
-import NewMapModal from '@/components/map/NewMapModal.vue';
-import LoadMapModal from '@/components/map/LoadMapModal.vue';
-import EditMapModal from '@/components/map/EditMapModal.vue';
 import NavLink from './NavLink.vue';
-import modes from '@/components/modes/modes.js';
 import boardUtil from '@/components/board/board.js';
 import mapUtil from '@/components/map/mapUtil.js';
+import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 const NONE = "none";
 const MAP = "map";
 
 export default {
-    components: { NewMapModal, LoadMapModal, EditMapModal, NavLink },
+    components: { NavLink },
     data() {
         return {
-            selected: NONE,
-            showNewMapModal: false,
-            showEditMapModal: false,
-            showLoadMapModal: false
+            selected: NONE
         }
     },
     computed: {
@@ -57,17 +48,11 @@ export default {
         },
         clickMapNew() {
             this.selected = NONE;
-            this.showNewMapModal = true;
-            modes.modalOpened();
+            modalEventBus.openModal(modalEventBus.NEW_MAP_MODAL);
         },
         clickMapEdit() {
             this.selected = NONE;
-            this.showEditMapModal = true;
-            modes.modalOpened();
-        },
-        closeNewMapModal() {
-            this.showNewMapModal = false;
-            modes.modalClosed();
+            modalEventBus.openModal(modalEventBus.EDIT_MAP_MODAL);
         },
         clickMapSave() {
             this.selected = NONE;
@@ -75,23 +60,12 @@ export default {
             if (name) {
                 mapUtil.saveMap(name);
             } else {
-                this.showEditMapModal = true;
-                modes.modalOpened();
+                modalEventBus.openModal(modalEventBus.EDIT_MAP_MODAL);
             }
         },
         clickMapLoad() {
-            this.$refs['loadMapModal'].loadMaps();
             this.selected = NONE;
-            this.showLoadMapModal = true;
-            modes.modalOpened();
-        },
-        closeLoadMapModal() {
-            this.showLoadMapModal = false;
-            modes.modalClosed();
-        },
-        closeEditMapModal() {
-            this.showEditMapModal = false;
-            modes.modalClosed();
+            modalEventBus.openModal(modalEventBus.LOAD_MAP_MODAL);
         }
     }
 }

@@ -9,14 +9,8 @@
             <table>
                 <tr>
                     <KeyButton @click="turnAnticlockwise" keypress="Q">◄</KeyButton>
-                   <!-- <KeyButton @click="raiseHeight" keypress="W">↑</KeyButton>-->
                     <KeyButton @click="turnClockwise" keypress="E">►</KeyButton>
                 </tr>
-       <!--         <tr>
-                    <KeyButton @click="zoomOut" keypress="A">-</KeyButton>
-                    <KeyButton @click="lowerHeight" keypress="S">↓</KeyButton>
-                    <KeyButton @click="zoomIn" keypress="D">+</KeyButton>
-                </tr>-->
             </table>
         </div>
         <div class="column">
@@ -35,11 +29,12 @@
 </template>
 
 <script>
-import Modal from '@/components/ui/Modal.vue';
+import Modal from '@/components/ui/modal/Modal.vue';
 import ShowBlock from './ShowBlock.vue';
 import KeyButton from '@/components/ui/KeyButton.vue';
 import keyboard from '@/components/keyboard.js';
 import EditPolygon from '@/components/edit/EditPolygon.vue';
+import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 import modelUtil from '@/components/terrain/models.js';
 import terrainUtil from '@/components/terrain/terrain.js';
@@ -48,12 +43,13 @@ const N = "N", S = "S", E = "E", W = "W", NE = "NE", NW = "NW", SE = "SE", SW = 
 
 export default {
     components: { Modal, ShowBlock, KeyButton, EditPolygon },
-    props: [ 'editBrush', 'visible' ],
+    props: [ 'visible' ],
     data() {
         return {
             cameraOrientation: N,
             polygon: [],
-            name: ''
+            name: '',
+            editBrush: ''
         }
     },
     watch: {
@@ -92,6 +88,10 @@ export default {
         }
     },
     methods: {
+        onShow({editBrush}) {
+            this.editBrush = editBrush;
+            // this.updateEditBrush(editBrush);
+        },
         updateEditBrush() {
             window.console.log("Edit brush: " + this.editBrush);
             if (this.editBrush === 'new') {

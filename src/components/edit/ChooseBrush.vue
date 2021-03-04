@@ -34,18 +34,20 @@
         </div>
 
         <div>
-            <ModalButton @click="$emit('changeTo', selectedBrush)">Choose</ModalButton>
-            <ModalButton @click="$emit('edit', selectedBrush)">Edit</ModalButton>
-            <ModalButton @click="$emit('edit', 'new')">New</ModalButton>
+            <ModalButton @click="chooseBrush">Choose</ModalButton>
+            <ModalButton @click="editBrush">Edit</ModalButton>
+            <ModalButton @click="newBrush">New</ModalButton>
         </div>
     </Modal>
 </template>
 
 <script>
 import ShowBlock from '@/components/edit/ShowBlock.vue';
-import Modal from '@/components/ui/Modal.vue';
+import Modal from '@/components/ui/modal/Modal.vue';
 import modelUtil from '@/components/terrain/models.js';
 import terrainUtil from '@/components/terrain/terrain.js';
+import brush from '@/components/edit/brush.js';
+import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 export default {
     data() {
@@ -64,11 +66,24 @@ export default {
             return this.selectedBrush === brush;
         },
         getModel(modelName) {
-            // window.console.log(`ChooseBrush#getModel(${modelName})`);
             return modelUtil.getModelForName(modelName);
         },
         getTerrainModel(terrainName) {
             return terrainUtil.loadTerrain(terrainName).polygon;
+        },
+        chooseBrush() {
+            brush.setBrush(this.selectedBrush);
+            this.$emit('close');
+        },
+        editBrush() {
+            modalEventBus.openModal(modalEventBus.EDIT_BRUSH_MODAL, {
+                editBrush: this.selectedBrush
+            });
+        },
+        newBrush() {
+            modalEventBus.openModal(modalEventBus.EDIT_BRUSH_MODAL, {
+                editBrush: 'new'
+            });
         }
     }
 }

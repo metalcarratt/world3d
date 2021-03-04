@@ -4,20 +4,14 @@
         <span :class="[isWalking() ? 'selected' : '', 'button']" @click="changeModeToWalking">Walk</span>
         <span :class="[isEditing() ? 'selected' : '', 'button']" @click="changeModeToEdit">Edit</span>
         <span v-if="isEditing()">
-            <h2>Brush</h2><Keypress :inline="true">P</Keypress>
+            <h2>Brush</h2>
             <ShowBlock id="brush" :brusho="getBrushModel()" @click.native="openChooseBrushModal" size="s100" :orientation="brushOrientation" />
-            <button @click="brushOrientation = 'N'">N</button>
-            <button @click="brushOrientation = 'S'">S</button>
-            <button @click="brushOrientation = 'E'">E</button>
-            <button @click="brushOrientation = 'W'">W</button>
+            <button :class="brushOrientation === 'N' ? 'selected' : ''" @click="brushOrientation = 'N'">N</button>
+            <button :class="brushOrientation === 'S' ? 'selected' : ''" @click="brushOrientation = 'S'">S</button>
+            <button :class="brushOrientation === 'E' ? 'selected' : ''" @click="brushOrientation = 'E'">E</button>
+            <button :class="brushOrientation === 'W' ? 'selected' : ''" @click="brushOrientation = 'W'">W</button>
         </span>
-        <ChooseBrush v-show="showChooseBrushModal" @changeTo="updateBrush" @close="closeChooseBrushModal" @edit="openEditBrushModal" />
-        <EditBrushModal
-            v-show="showEditBrushModal"
-            :visible="showEditBrushModal"
-            :editBrush="selectedEditBrush"
-            @close="closeEditBrushModal"
-        />
+        <button class="fullWidth">Textures</button>
     </div>
 </template>
 
@@ -32,6 +26,7 @@ import ChooseBrush from '@/components/edit/ChooseBrush.vue';
 import EditBrushModal from '@/components/edit/EditBrushModal.vue';
 import keyboard from '@/components/keyboard.js';
 import modelUtil from '@/components/terrain/models.js';
+import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 export default {
     components: { ShowBlock, Keypress, ChooseBrush, EditBrushModal },
@@ -75,13 +70,6 @@ export default {
                 }
             }
         });
-
-        keyboard.registerInterest({
-            name: "ControlMode",
-            key: keyboard.P,
-            condition: () => this.isEditing(),
-            callback: () => this.showChooseBrushModal = !this.showChooseBrushModal
-        });
     },
     methods: {
         getBrushModel() {
@@ -102,7 +90,6 @@ export default {
             this.changeMode();
         },
         changeMode() {
-            // const selectorLocation = selectorUtil.getSelectorLocation();
             selectorUtil.updateSelectorLocation({show: Modes.isEditing()});
             if (Modes.isEditing()) {
                 const playerLocation = playerUtil.getPlayerLocation()
@@ -110,30 +97,9 @@ export default {
                 selectorUtil.updateSelectorLocation({y: playerLocation.y});
             }
             selectorUtil.positionSelector();
-            // board.positionSelector(this.selectorLocation);
-        },
-        updateBrush(newBrush) {
-            this.brush = newBrush;
-            this.closeChooseBrushModal();
         },
         openChooseBrushModal() {
-            this.showChooseBrushModal = true
-            Modes.modalOpened();
-        },
-        closeChooseBrushModal() {
-            this.showChooseBrushModal = false;
-            Modes.modalClosed();
-        },
-        openEditBrushModal(selectedBrush) {
-            this.closeChooseBrushModal();
-            this.selectedEditBrush = selectedBrush;
-            this.showEditBrushModal = true;
-            Modes.modalOpened();
-        },
-        closeEditBrushModal() {
-            this.showEditBrushModal = false;
-            Modes.modalClosed();
-            this.openChooseBrushModal();
+            modalEventBus.openModal(modalEventBus.CHOOSE_BRUSH_MODAL);
         }
     }
 }
@@ -178,5 +144,13 @@ div.modes span:not(.selected):hover {
 
 div.modes span.button + span.button {
     margin-top: 4px;
+}
+
+button.selected {
+    background-color: yellow;
+}
+
+button.fullWidth {
+    display: block;
 }
 </style>

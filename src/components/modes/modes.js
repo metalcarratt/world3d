@@ -8,50 +8,18 @@ const modes = new Vuex.Store({
     state: {
         mode: WALK,
         lastMode: WALK
-    },
-    getters: {
-        isWalking(state) {
-            return state.mode === WALK;
-        },
-        isEditing(state) {
-            return state.mode === EDIT;
-        }
-    },
-    mutations: {
-        setModeWalk (state) {
-            state.mode = WALK
-        },
-        setModeEdit (state) {
-            state.mode = EDIT
-        },
-        setModeModal(state) {
-            state.lastMode = state.mode;
-            state.mode = MODAL
-        },
-        returnToLastMode(state) {
-            state.mode = state.lastMode;
-        }
     }
 });
 
 export default {
-    setWalking() {
-        modes.commit('setModeWalk');
-    },
-    setEditing() {
-        modes.commit('setModeEdit');
-    },
+    setWalking: () => modes.state.mode = WALK,
+    setEditing: () => modes.state.mode = EDIT,
     modalOpened() {
-        modes.commit('setModeModal');
+        modes.state.lastMode = modes.state.mode;
+        modes.state.mode = MODAL
     },
-    modalClosed() {
-        modes.commit('returnToLastMode');
-    },
-    isWalking() {
-        return modes.getters.isWalking;
-    },
-    isEditing() {
-        return modes.getters.isEditing;
-    }
+    modalClosed: () => modes.state.mode = modes.state.lastMode,
+    isWalking: () => modes.state.mode === WALK,
+    isEditing: () => modes.state.mode === EDIT
 }
 

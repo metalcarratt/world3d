@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Modal from '@/components/ui/Modal.vue';
+import Modal from '@/components/ui/modal/Modal.vue';
 import boardUtil from '@/components/board/board.js';
 import mapUtil from '@/components/map/mapUtil.js';
 

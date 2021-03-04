@@ -7,6 +7,7 @@
     <EditControls v-show="showEditControls" @updateBoard="updateBoard" />
     <ControlMode />
     <SystemControls />
+    <ModalController />
   </div>
 </template>
 
@@ -19,10 +20,11 @@ import SystemControls from '@/components/system/SystemControls.vue';
 import Modes from "@/components/modes/modes.js";
 import board from '@/components/board/board.js';
 import keyboard from '@/components/keyboard.js';
+import ModalController from '@/components/ui/modal/ModalController.vue';
 
 export default {
   name: 'App',
-  components: { GameBoard, WalkControls, EditControls, SystemControls, ControlMode },
+  components: { GameBoard, WalkControls, EditControls, SystemControls, ControlMode, ModalController },
   mounted() {
     window.addEventListener("keypress", keyboard.handleKeyPress);
   },

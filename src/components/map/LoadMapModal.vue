@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Modal from '@/components/ui/Modal.vue';
+import Modal from '@/components/ui/modal/Modal.vue';
 import mapUtil from './mapUtil.js';
 import boardUtil from '@/components/board/board.js';
 
@@ -29,6 +29,9 @@ export default {
         }
     },
     methods: {
+        onShow() {
+            this.loadMaps();
+        },
         loadMaps() {
             this.worlds = mapUtil.listMaps();
         },
