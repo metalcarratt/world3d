@@ -49,4 +49,10 @@ body {
 	margin: 0;
 	background-color: white;
 }
+
+.column {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
 </style>

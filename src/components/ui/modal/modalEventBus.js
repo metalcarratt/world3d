@@ -7,6 +7,8 @@ const LOAD_MAP_MODAL = "loadMapModal";
 const EDIT_MAP_MODAL = "editMapModal";
 const CHOOSE_BRUSH_MODAL = "chooseBrushModal";
 const EDIT_BRUSH_MODAL = "editBrushModal";
+const CHOOSE_TEXTURE_MODAL = "chooseTextureModal";
+const EDIT_TEXTURE_MODAL = "editTextureModal";
 
 const store = new Vuex.Store({
     state: {
@@ -17,7 +19,7 @@ const store = new Vuex.Store({
 });
 
 export default {
-    NEW_MAP_MODAL, LOAD_MAP_MODAL, EDIT_MAP_MODAL, CHOOSE_BRUSH_MODAL, EDIT_BRUSH_MODAL,
+    NEW_MAP_MODAL, LOAD_MAP_MODAL, EDIT_MAP_MODAL, CHOOSE_BRUSH_MODAL, EDIT_BRUSH_MODAL, CHOOSE_TEXTURE_MODAL, EDIT_TEXTURE_MODAL,
     watchCurrentModal: () => store.state.currentModal,
     openModal(modalName, args) {
         if (store.state.currentModal) {

@@ -2,6 +2,7 @@
     <div class="menu">
         <nav class="main">
             <NavLink @click="clickMap" :selected="mapSelected">Map</NavLink>
+            <NavLink @click="clickBlocks" :selected="blocksSelected">Blocks</NavLink>
             <NavLink @click="clickMapEdit">Edit</NavLink>
             <NavLink @click="clickMapSave">Save</NavLink>
             <h1>{{ mapName }}</h1>
@@ -9,6 +10,10 @@
         <nav class="sub" v-if="mapSelected">
             <NavLink @click="clickMapNew">New</NavLink>
             <NavLink @click="clickMapLoad">Load</NavLink>
+        </nav>
+        <nav class="sub" v-if="blocksSelected">
+            <NavLink @click="clickBrushes">Brushes</NavLink>
+            <NavLink @click="clickTextures">Textures</NavLink>
         </nav>
     </div>
 </template>
@@ -21,6 +26,7 @@ import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 const NONE = "none";
 const MAP = "map";
+const BLOCKS = "blocks";
 
 export default {
     components: { NavLink },
@@ -31,7 +37,10 @@ export default {
     },
     computed: {
         mapSelected() {
-            return this.selected == MAP;
+            return this.selected === MAP;
+        },
+        blocksSelected() {
+            return this.selected === BLOCKS;
         },
         mapName() {
             const name = boardUtil.getName();
@@ -39,33 +48,39 @@ export default {
         }
     },
     methods: {
+        openModal(modalName) {
+            this.selected = NONE;
+            modalEventBus.openModal(modalName);
+        },
         clickMap() {
-            if (this.selected !== MAP) {
-                this.selected = MAP;
-            } else{
-                this.selected = NONE;
-            }
+            this.selected = this.selected !== MAP ? MAP : NONE;
+        },
+        clickBlocks() {
+            this.selected = this.selected !== BLOCKS ? BLOCKS : NONE;
         },
         clickMapNew() {
-            this.selected = NONE;
-            modalEventBus.openModal(modalEventBus.NEW_MAP_MODAL);
+            this.openModal(modalEventBus.NEW_MAP_MODAL);
         },
         clickMapEdit() {
-            this.selected = NONE;
-            modalEventBus.openModal(modalEventBus.EDIT_MAP_MODAL);
+            this.openModal(modalEventBus.EDIT_MAP_MODAL);
         },
         clickMapSave() {
-            this.selected = NONE;
             const name = boardUtil.getName();
             if (name) {
+                this.selected = NONE;
                 mapUtil.saveMap(name);
             } else {
-                modalEventBus.openModal(modalEventBus.EDIT_MAP_MODAL);
+                this.openModal(modalEventBus.EDIT_MAP_MODAL);
             }
         },
         clickMapLoad() {
-            this.selected = NONE;
-            modalEventBus.openModal(modalEventBus.LOAD_MAP_MODAL);
+            this.openModal(modalEventBus.LOAD_MAP_MODAL);
+        },
+        clickBrushes() {
+            this.openModal(modalEventBus.CHOOSE_BRUSH_MODAL);
+        },
+        clickTextures() {
+            this.openModal(modalEventBus.CHOOSE_TEXTURE_MODAL);
         }
     }
 }

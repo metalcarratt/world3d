@@ -10,6 +10,8 @@
             :visible="showing === EDIT_BRUSH_MODAL"
             @close="close"
         />
+        <ChooseTextureModal v-show="showing === CHOOSE_TEXTURE_MODAL" @close="close" />
+        <EditTextureModal v-show="showing === EDIT_TEXTURE_MODAL" :ref="EDIT_TEXTURE_MODAL" @close="close" />
     </span>
 </template>
 
@@ -19,11 +21,13 @@ import LoadMapModal from '@/components/map/LoadMapModal.vue';
 import EditMapModal from '@/components/map/EditMapModal.vue';
 import ChooseBrush from '@/components/edit/ChooseBrush.vue';
 import EditBrushModal from '@/components/edit/EditBrushModal.vue';
+import ChooseTextureModal from '@/components/edit/texture/ChooseTextureModal.vue';
+import EditTextureModal from '@/components/edit/texture/EditTextureModal.vue';
 import modes from '@/components/modes/modes.js';
 import modalEventBus from '@/components/ui/modal/modalEventBus.js';
 
 export default {
-    components: { NewMapModal, LoadMapModal, EditMapModal, ChooseBrush, EditBrushModal },
+    components: { NewMapModal, LoadMapModal, EditMapModal, ChooseBrush, EditBrushModal, ChooseTextureModal, EditTextureModal },
     data() {
         return {
             showing: '',
@@ -31,7 +35,9 @@ export default {
             LOAD_MAP_MODAL: modalEventBus.LOAD_MAP_MODAL,
             EDIT_MAP_MODAL: modalEventBus.EDIT_MAP_MODAL,
             CHOOSE_BRUSH_MODAL: modalEventBus.CHOOSE_BRUSH_MODAL,
-            EDIT_BRUSH_MODAL: modalEventBus.EDIT_BRUSH_MODAL
+            EDIT_BRUSH_MODAL: modalEventBus.EDIT_BRUSH_MODAL,
+            CHOOSE_TEXTURE_MODAL: modalEventBus.CHOOSE_TEXTURE_MODAL,
+            EDIT_TEXTURE_MODAL: modalEventBus.EDIT_TEXTURE_MODAL
         }
     },
     watch: {
@@ -48,6 +54,7 @@ export default {
     },
     methods: {
         open(modalName) {
+            // window.console.log(`Open modal ${modalName}`);
             this.showing = modalName;
             modes.modalOpened();
 

@@ -7,31 +7,34 @@ import hairTexture from '@/assets/hair.texture';
 import skinTexture from '@/assets/skin.texture';
 import whiteClothTexture from '@/assets/whiteCloth.texture';
 
+const WATER = 'water', GRASS = 'grass', ROCK = 'rock', BARK = 'bark', LEAVES = 'leaves', HAIR = 'hair', SKIN = 'skin', WHITE_CLOTH = 'whiteCloth'
+
 export default {
+    allTextures: [WATER, GRASS, ROCK, BARK, LEAVES, HAIR, SKIN, WHITE_CLOTH],
     getTextureForName(name) {
         switch (name) {
-            case 'water':
+            case WATER:
                 return waterTexture;
 
-            case 'grass':
+            case GRASS:
                 return grassTexture;
             
-            case 'rock':
+            case ROCK:
                 return rockTexture;
 
-            case 'bark':
+            case BARK:
                 return barkTexture;
 
-            case 'leaves':
+            case LEAVES:
                 return leavesTexture;
 
-            case 'hair':
+            case HAIR:
                 return hairTexture;
 
-            case 'skin':
+            case SKIN:
                 return skinTexture;
 
-            case 'whiteCloth':
+            case WHITE_CLOTH:
                 return whiteClothTexture;
         }
     }

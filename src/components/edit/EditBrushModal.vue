@@ -140,11 +140,11 @@ export default {
 </script>
 
 <style scoped>
-.column {
+/* .column {
     display: inline-block;
     vertical-align: top;
     margin-left: 10px;
-}
+} */
 
 h3 {
     font-family: sans-serif;
