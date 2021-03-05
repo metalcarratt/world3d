@@ -14,15 +14,15 @@ const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TREE = 'Tree', PLAYER = '
     BRIDGE = 'Bridge', MARBLE = 'Marble';
 
 const models = [
-    { id: 0, name: WATER,      model: waterModel,     passable: false },
-    { id: 1, name: GRASS,      model: grassModel,     passable: true  },
-    { id: 2, name: ROCK,       model: rockModel,      passable: false },
-    { id: 3, name: TREE,       model: treeModel,      passable: false },
-    { id: 4, name: PLAYER,     model: playerModel,    passable: false },
-    { id: 5, name: RIVER,      model: riverModel,     passable: false },
-    { id: 6, name: RIVER_BEND, model: riverBendModel, passable: false },
-    { id: 7, name: BRIDGE,     model: bridgeModel,    passable: true },
-    { id: 8, name: MARBLE,     model: marbleModel,    passable: false }
+    { id: 1, name: WATER,      model: waterModel,     passable: false },
+    { id: 2, name: GRASS,      model: grassModel,     passable: true  },
+    { id: 3, name: ROCK,       model: rockModel,      passable: false },
+    { id: 4, name: TREE,       model: treeModel,      passable: false },
+    { id: 5, name: PLAYER,     model: playerModel,    passable: false },
+    { id: 6, name: RIVER,      model: riverModel,     passable: false },
+    { id: 7, name: RIVER_BEND, model: riverBendModel, passable: false },
+    { id: 8, name: BRIDGE,     model: bridgeModel,    passable: true },
+    { id: 9, name: MARBLE,     model: marbleModel,    passable: false }
 ];
 
 export default {

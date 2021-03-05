@@ -6,7 +6,7 @@ let selector = null;
 const selectorLocation = {
     x: 1,
     y: 2,
-    z: 0.4,
+    z: 1,
     show: false
 }
 
@@ -29,13 +29,16 @@ const getSelectorLocation = function() {
     return selectorLocation;
 }
 
-const updateSelectorLocation = function({x, y, show}) {
+const updateSelectorLocation = function({x, y, z, show}) {
     // window.console.log(`update selector location x=${x} y=${y} show=${show}`);
     if (x !== undefined) {
         selectorLocation.x = x;
     }
     if (y !== undefined) {
         selectorLocation.y = y;
+    }
+    if (z !== undefined) {
+        selectorLocation.z = z;
     }
     if (show !== undefined) {
         selectorLocation.show = show;

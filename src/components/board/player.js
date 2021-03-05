@@ -12,7 +12,7 @@ let myCamera = null;
 const playerLocation = {
     x: 1,
     y: 1,
-    z: 0,
+    z: 1,
     facing: 'up'
 }
 
@@ -59,19 +59,21 @@ const getPlayerLocation = function() {
     return playerLocation;
 }
 
-const moveAllowed = function(x, y) {
-    const modelIndex = board.getAt(x, y);
-    return modelUtil.isPassable(modelIndex);
+const moveAllowed = function(x, y, z) {
+    const clearAhead = board.getAt(x, y, z) === 0;
+    const solidBeneath = modelUtil.isPassable(board.getAt(x, y, z - 1));
+    window.console.log(`moveAllowed? clearAhead=${clearAhead}, solidBeneath=${solidBeneath}`);
+    return clearAhead && solidBeneath;
 }
 
 const moveXAllowed = function(x) {
-    const allowed = x >= 0 && x < board.width() && moveAllowed(x, playerLocation.y);
+    const allowed = x >= 0 && x < board.width() && moveAllowed(x, playerLocation.y, playerLocation.z);
     window.console.log(`move x allowed: ${allowed} x=${x}`);
     return allowed;
 }
 
 const moveYAllowed = function(y) {
-    const allowed = y >= 0 && y < board.height() && moveAllowed(playerLocation.x, y);
+    const allowed = y >= 0 && y < board.height() && moveAllowed(playerLocation.x, y, playerLocation.z);
     window.console.log(`move allowed: ${allowed} y=${y}`);
     return allowed;
 }

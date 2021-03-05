@@ -1,7 +1,7 @@
 const registeredParties = {};
 
 const TILDE = "~", P = "P", NUM0 = "0", NUM1 = "1", NUM2 = "2", NUM3 = "3",
-W = "W", S = "S", A = "A", D = "D", Q = "Q", E = "E", SPACE="SPACE";
+W = "W", S = "S", A = "A", D = "D", Q = "Q", E = "E", SPACE="SPACE", PLUS = "+", MINUS = "-";
 
 const callCallback = function(key) {
     for (let reg of registeredParties[key]) {
@@ -14,6 +14,8 @@ const callCallback = function(key) {
 
 const keymap = {
     32: SPACE,
+    43: PLUS,
+    45: MINUS,
     48: NUM0,
     49: NUM1,
     50: NUM2,
@@ -38,7 +40,7 @@ const create = function(condition, callback) {
 }
 
 export default {
-    TILDE, P, NUM0, NUM1, NUM2, NUM3, W, S, A, D, Q, E, SPACE,
+    TILDE, P, NUM0, NUM1, NUM2, NUM3, W, S, A, D, Q, E, SPACE, PLUS, MINUS,
     registerInterest({key, condition, callback}) {
         // window.console.log("register");
         if (!registeredParties[key]) {

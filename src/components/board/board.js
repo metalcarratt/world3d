@@ -23,14 +23,26 @@ let midx = 0;
 let midy = 0;
 
 let map = [
-    [0,0,0,0,0,0,0],
-    [0,1,1,1,1,1,0],
-    [0,1,2,3,2,1,0],
-    [0,1,1,2,1,0,0],
-    [0,0,0,1,1,2,0],
-    [0,0,1,1,2,0,0],
-    [0,3,1,1,0,0,0],
-    [0,0,0,0,0,0,0],
+    [
+        [1,1,1,1,1,1,1],
+        [1,2,2,2,2,2,1],
+        [1,2,2,2,2,2,1],
+        [1,2,2,2,2,1,1],
+        [1,1,1,2,2,2,1],
+        [1,1,2,2,2,1,1],
+        [1,2,2,2,1,1,1],
+        [1,1,1,1,1,1,1]
+    ],
+    [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,3,4,3,0,0],
+        [0,0,0,3,0,0,0],
+        [0,0,0,0,0,3,0],
+        [0,0,0,0,3,0,0],
+        [0,4,0,0,0,0,0],
+        [0,0,0,0,0,0,0]
+    ]
 ];
 
 const getBoard = function() {
@@ -53,10 +65,10 @@ const removeCube = function({x, y}) {
     group.remove(cubeToRemove);
 }
 
-const drawCube = function({x, y}) {
+const drawCube = function({x, y, z}) {
     let cube = null;
-    const key = map[x][y];
-    if (typeof key === 'object') {
+    const key = map[z][x][y];
+    if (typeof key === 'object' && key.id !== 0) {
         cube = modelUtil.mesh(key.id, true);
         switch (key.orientation) {
             case 'S':
@@ -73,15 +85,18 @@ const drawCube = function({x, y}) {
                 cube.rotation.z = 0;
                 break;
         }
-    } else if (typeof key === 'number') {
+    } else if (typeof key === 'number' && key !== 0) {
         cube = modelUtil.mesh(key, true);
     }
     
-    cube.name = cubeName(x, y);
-            
-    cube.position.x = x - midx;
-    cube.position.y = y - midy;
-    group.add(cube);
+    if (cube !== null) {
+        cube.name = cubeName(x, y);
+                
+        cube.position.x = x - midx;
+        cube.position.y = y - midy;
+        cube.position.z = z;
+        group.add(cube);
+    }
 }
 
 const cubeName = (x, y) => "{x=" + x + "y=" + y + "}";
@@ -107,12 +122,15 @@ const newBoard = function(newMap) {
 const draw = function() {
     window.console.log("draw");
     
-    const width = map.length;
-    const height = map[0].length;
-    for (var x = 0; x < width; x++) {
-        
-        for (var y = 0; y < height; y++) {
-            drawCube({x, y});
+    const height = map.length;
+    const width = map[0].length;
+    const length = map[0][0].length;
+    
+    for (var z = 0; z < height; z++) {
+        for (var x = 0; x < width; x++) {
+            for (var y = 0; y < length; y++) {
+                drawCube({x, y, z});
+            }
         }
     }
 }
@@ -121,10 +139,10 @@ let myCamera = null;
 
 const init = function(scene, camera) {
     myCamera = camera;
-    const width = map.length;
-    const height = map[0].length;
+    const width = map[0].length;
+    const length = map[0][0].length;
     midx = Math.floor(width/2);
-    midy = Math.floor(height/2);
+    midy = Math.floor(length/2);
     // window.console.log(`init midx: ${midx}, midy: ${midy}`);
 
     draw();
@@ -149,9 +167,9 @@ export default {
     getBoard,
     getName: () => store.state.mapname,
     changeName: (name) => store.state.mapname = name,
-    width: () => map.length,
-    height: () => map[0].length,
-    getAt: (x, y) => map[x][y],
+    width: () => map[0].length,
+    height: () => map[0][0].length,
+    getAt: (x, y, z) => map[z][x][y],
     getStarting: () => store.state.starting,
     setStarting: (starting) => store.state.starting = starting
 }

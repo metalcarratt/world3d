@@ -11,17 +11,17 @@ const rotateCamera = function(camera, {x, y, z}) {
 export default {
     faceNorth(playerCube, camera) {
         playerCube.rotation.z = 0;
-        camera.position.set(0,-3,4);
+        camera.position.set(0,-3,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: Math.PI * 0.2,
             y: 0,
-            z:0
+            z: 0
         });
     },
     
     faceWest(playerCube, camera) {
         playerCube.rotation.z = Math.PI / 2;
-        camera.position.set(3,0,4);
+        camera.position.set(3,0,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: 0,
             y: Math.PI * 0.2,
@@ -31,7 +31,7 @@ export default {
     
     faceEast(playerCube, camera) {
         playerCube.rotation.z = Math.PI / 2 * NEGATIVE;
-        camera.position.set(-3,0,4);
+        camera.position.set(-3,0,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: 0,
             y: Math.PI * 0.2 * NEGATIVE,
@@ -41,7 +41,7 @@ export default {
     
     faceSouth(playerCube, camera) {
         playerCube.rotation.z = Math.PI;
-        camera.position.set(0,3,4);
+        camera.position.set(0,3,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: Math.PI * 0.2 * NEGATIVE,
             y: 0,
@@ -51,7 +51,7 @@ export default {
     
     faceNorthEast(playerCube, camera) {
         playerCube.rotation.z = Math.PI * 0.25 * -1;
-        camera.position.set(-2.12,-2.12,4);
+        camera.position.set(-2.12,-2.12,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: 0.49, //Math.PI * 0.2,
             y: 0.4 * NEGATIVE, //Math.PI * 0.2 * NEGATIVE,
@@ -61,7 +61,7 @@ export default {
 
     faceNorthWest(playerCube, camera) {
         playerCube.rotation.z = Math.PI * 0.25;
-        camera.position.set(2.12,-2.12,4);
+        camera.position.set(2.12,-2.12,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: 0.49, //Math.PI / 4, //0.78, //Math.PI * 0.2,
             y: 0.43, //Math.PI / 5, //0.63, //Math.PI * 0.2,
@@ -71,7 +71,7 @@ export default {
 
     faceSouthEast(playerCube, camera) {
         playerCube.rotation.z = Math.PI * 0.75 * NEGATIVE;
-        camera.position.set(-2.12,2.12,4);
+        camera.position.set(-2.12,2.12,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: -0.46, //Math.PI * 0.2 * NEGATIVE,
             y: -0.43, //Math.PI * 0.2 * NEGATIVE,
@@ -81,7 +81,7 @@ export default {
 
     faceSouthWest(playerCube, camera) {
         playerCube.rotation.z = Math.PI * 0.75;
-        camera.position.set(2.12,2.12,4);
+        camera.position.set(2.12,2.12,playerCube.position.z + 4);
         rotateCamera(camera, {
             x: -0.46, //Math.PI * 0.2 * NEGATIVE,
             y: 0.4, //Math.PI * 0.2,

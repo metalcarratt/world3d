@@ -3,7 +3,7 @@
         <tr>
             <KeyButton />
             <KeyButton @click="forward" keypress="W">↑</KeyButton>
-            <KeyButton />
+            <KeyButton @click="up" keypress="+">up</KeyButton>
         </tr>
         <tr>
             <KeyButton @click="left" keypress="A">←</KeyButton>
@@ -13,7 +13,7 @@
         <tr>
             <KeyButton />
             <KeyButton @click="place" keypress="space">place</KeyButton>
-            <KeyButton />
+            <KeyButton @click="down" keypress="-">down</KeyButton>
         </tr>
     </table>
 </template>
@@ -52,6 +52,14 @@ export default {
                 {
                     key: keyboard.SPACE,
                     callback: () => this.place()
+                },
+                {
+                    key: keyboard.PLUS,
+                    callback: () => this.up()
+                },
+                {
+                    key: keyboard.MINUS,
+                    callback: () => this.down()
                 }
             ]
         });
@@ -131,6 +139,16 @@ export default {
                     selectorUtil.updateSelectorLocation({y: selectorLocation.y - 1});
                     break;
             }
+            selectorUtil.positionSelector();
+        },
+        up() {
+            const selectorLocation = selectorUtil.getSelectorLocation();
+            selectorUtil.updateSelectorLocation({z: selectorLocation.z + 1});
+            selectorUtil.positionSelector();
+        },
+        down() {
+            const selectorLocation = selectorUtil.getSelectorLocation();
+            selectorUtil.updateSelectorLocation({z: selectorLocation.z - 1});
             selectorUtil.positionSelector();
         },
         place() {
