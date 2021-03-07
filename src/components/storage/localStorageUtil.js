@@ -32,7 +32,9 @@ const save = function(storeName, data, dataName) {
 }
 
 const saveToSummaryListAndGetId = function(storeName, dataName) {
-    let summaryList = getSummaryList();
+    window.console.log("saveToSummaryListAndGetId");
+    let summaryList = getSummaryList(storeName);
+    window.console.log(summaryList);
     if (summaryList == null) {
         summaryList = {};
     }
@@ -41,6 +43,7 @@ const saveToSummaryListAndGetId = function(storeName, dataName) {
     } else {
         const id = getNewId();
         summaryList[dataName] = id;
+        window.console.log(summaryList);
         updateSummaryList(storeName, summaryList);
         return id;
     }
