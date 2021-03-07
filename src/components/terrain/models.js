@@ -3,31 +3,35 @@ import renderBrush from '@/components/edit/renderBrush.js';
 import waterModel from '@/models/water.model';
 import grassModel from '@/models/grass.model';
 import rockModel from '@/models/rock.model';
-import treeModel from '@/models/tree.model';
+import trunkModel from '@/models/trunk.model';
 import playerModel from '@/models/player.model';
 import riverModel from '@/models/river.model';
 import riverBendModel from '@/models/river-bend.model';
 import bridgeModel from '@/models/bridge.model';
 import marbleModel from '@/models/marble.model';
+import leavesModel from '@/models/leaves.model';
+import xModel from '@/models/x.model';
 
-const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TREE = 'Tree', PLAYER = 'Player', RIVER = 'River', RIVER_BEND = "River Bend",
-    BRIDGE = 'Bridge', MARBLE = 'Marble';
+const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TRUNK = 'Trunk', PLAYER = 'Player', RIVER = 'River', RIVER_BEND = "River Bend",
+    BRIDGE = 'Bridge', MARBLE = 'Marble', LEAVES = "Leaves", X = "X";
 
 const models = [
-    { id: 1, name: WATER,      model: waterModel,     passable: false },
-    { id: 2, name: GRASS,      model: grassModel,     passable: true  },
-    { id: 3, name: ROCK,       model: rockModel,      passable: false },
-    { id: 4, name: TREE,       model: treeModel,      passable: false },
-    { id: 5, name: PLAYER,     model: playerModel,    passable: false },
-    { id: 6, name: RIVER,      model: riverModel,     passable: false },
-    { id: 7, name: RIVER_BEND, model: riverBendModel, passable: false },
-    { id: 8, name: BRIDGE,     model: bridgeModel,    passable: true },
-    { id: 9, name: MARBLE,     model: marbleModel,    passable: false }
+    { id: 0,  name: X,          model: xModel,         passable: false },
+    { id: 1,  name: WATER,      model: waterModel,     passable: false },
+    { id: 2,  name: GRASS,      model: grassModel,     passable: true  },
+    { id: 3,  name: ROCK,       model: rockModel,      passable: true },
+    { id: 4,  name: TRUNK,      model: trunkModel,     passable: true },
+    { id: 5,  name: PLAYER,     model: playerModel,    passable: false },
+    { id: 6,  name: RIVER,      model: riverModel,     passable: false },
+    { id: 7,  name: RIVER_BEND, model: riverBendModel, passable: false },
+    { id: 8,  name: BRIDGE,     model: bridgeModel,    passable: true },
+    { id: 9,  name: MARBLE,     model: marbleModel,    passable: true },
+    { id: 10, name: LEAVES,     model: leavesModel,    passable: true }
 ];
 
 export default {
-    allModels: [WATER, GRASS, ROCK, TREE, RIVER, RIVER_BEND, BRIDGE, MARBLE],
-    specialModels: [PLAYER],
+    allModels: [WATER, GRASS, ROCK, TRUNK, RIVER, RIVER_BEND, BRIDGE, MARBLE, LEAVES],
+    specialModels: [PLAYER, X],
     getModelForName: (name) => {
         const model = models.find(m => m.name === name);
         if (model) {

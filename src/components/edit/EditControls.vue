@@ -154,9 +154,11 @@ export default {
         place() {
             window.console.log("place");
             const selectorLocation = selectorUtil.getSelectorLocation();
+            window.console.log(selectorLocation);
             this.$emit('updateBoard', {
                 x: selectorLocation.x,
                 y: selectorLocation.y,
+                z: selectorLocation.z,
                 brush: brush.getBrush(),
                 orientation: brush.getOrientation()
             });

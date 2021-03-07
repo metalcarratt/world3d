@@ -6,7 +6,7 @@ const WORLD = "world";
 
 const getWorlds = () => JSON.parse(storage.getItem(WORLDS));
 const setWorlds = (worlds) => storage.setItem(WORLDS, JSON.stringify(worlds));
-const getWorld = (id) => JSON.parse(storage.getItem(WORLD + id))
+const getWorld = (id) => JSON.parse(storage.getItem(WORLD + id));
 const setWorld = (id, board) => storage.setItem(WORLD + id, JSON.stringify(board));
 const removeWorld = (id) => storage.removeItem(WORLD + id);
 const getLastWorldId = () => parseInt(storage.getItem(LAST_WORLD_ID));

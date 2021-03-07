@@ -15,7 +15,7 @@ const positionSelector = function() {
     // window.console.log(selectorLocation);
     selector.position.x = selectorLocation.x - board.getMid().midx;
     selector.position.y = selectorLocation.y - board.getMid().midy;
-    selector.position.z = selectorLocation.z;
+    selector.position.z = selectorLocation.z + 0.5;
     selector.visible = selectorLocation.show;
 }
 

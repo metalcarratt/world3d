@@ -11,7 +11,6 @@
             <button :class="brushOrientation === 'E' ? 'selected' : ''" @click="brushOrientation = 'E'">E</button>
             <button :class="brushOrientation === 'W' ? 'selected' : ''" @click="brushOrientation = 'W'">W</button>
         </span>
-        <button class="fullWidth">Textures</button>
     </div>
 </template>
 

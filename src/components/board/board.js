@@ -28,7 +28,7 @@ let map = [
         [1,2,2,2,2,2,1],
         [1,2,2,2,2,2,1],
         [1,2,2,2,2,1,1],
-        [1,1,1,2,2,2,1],
+        [1,1,2,2,2,2,1],
         [1,1,2,2,2,1,1],
         [1,2,2,2,1,1,1],
         [1,1,1,1,1,1,1]
@@ -42,6 +42,16 @@ let map = [
         [0,0,0,0,3,0,0],
         [0,4,0,0,0,0,0],
         [0,0,0,0,0,0,0]
+    ],
+    [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,10,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,10,0,0,0,0,0],
+        [0,0,0,0,0,0,0]
     ]
 ];
 
@@ -49,19 +59,36 @@ const getBoard = function() {
     return map;
 }
 
-const updateBoard = function({x, y, brush, orientation}) {
+const updateBoard = function({x, y, z, brush, orientation}) {
+    window.console.log("updateBoard");
+    if (map[z] === undefined) {
+        window.console.log("map[z] undefined");
+        addZLayer(z);
+    }
+    window.console.log(map[z]);
     if (orientation === 'N') {
-        map[x][y] = modelUtil.getIdForName(brush);
+        map[z][x][y] = modelUtil.getIdForName(brush);
     } else {
-        map[x][y] = { orientation, id: modelUtil.getIdForName(brush) };
+        map[z][x][y] = { orientation, id: modelUtil.getIdForName(brush) };
     }
 
-    removeCube({x, y});
-    drawCube({x, y});
+    removeCube({x, y, z});
+    drawCube({x, y, z});
 }
 
-const removeCube = function({x, y}) {
-    const cubeToRemove = group.getObjectByName(cubeName(x, y));
+const addZLayer = function(z) {
+    window.console.log("addZLayer");
+    map[z] = [];
+    for (let x = 0; x < width(); x++) {
+        map[z][x] = [];
+        for (let y = 0; y < height(); y++) {
+            map[z][x][y] = 0;
+        }
+    }
+}
+
+const removeCube = function({x, y, z}) {
+    const cubeToRemove = group.getObjectByName(cubeName(x, y, z));
     group.remove(cubeToRemove);
 }
 
@@ -90,7 +117,7 @@ const drawCube = function({x, y, z}) {
     }
     
     if (cube !== null) {
-        cube.name = cubeName(x, y);
+        cube.name = cubeName(x, y, z);
                 
         cube.position.x = x - midx;
         cube.position.y = y - midy;
@@ -99,7 +126,7 @@ const drawCube = function({x, y, z}) {
     }
 }
 
-const cubeName = (x, y) => "{x=" + x + "y=" + y + "}";
+const cubeName = (x, y, z) => `{x=${x},y=${y},z=${z}`;
 
 const newBoard = function(newMap) {
     let list = [...group.children];
@@ -158,6 +185,9 @@ const getMid = function() {
     return {midx, midy};
 }
 
+const width = () => map[0].length;
+const height = () => map[0][0].length;
+
 export default {
     updateBoard,
     init,
@@ -167,8 +197,8 @@ export default {
     getBoard,
     getName: () => store.state.mapname,
     changeName: (name) => store.state.mapname = name,
-    width: () => map[0].length,
-    height: () => map[0][0].length,
+    width,
+    height,
     getAt: (x, y, z) => map[z][x][y],
     getStarting: () => store.state.starting,
     setStarting: (starting) => store.state.starting = starting

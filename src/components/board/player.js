@@ -30,13 +30,13 @@ const initPlayer = function(camera) {
 }
 
 const positionPlayer = function() {
-    window.console.log("positioning player");
+    // window.console.log("positioning player");
     playerCube.position.x = playerLocation.x - board.getMid().midx;
     playerCube.position.y = playerLocation.y - board.getMid().midy;
     playerCube.position.z = playerLocation.z; // + 0.7;
-    window.console.log(`positioning player at ${playerLocation.x}, ${playerLocation.y}`);
-    window.console.log(`midx: ${board.getMid().midx}, midy: ${board.getMid().midy}`);
-    window.console.log(`player facing: ${playerOldFacing}, ${playerLocation.facing}`);
+    // window.console.log(`positioning player at ${playerLocation.x}, ${playerLocation.y}`);
+    // window.console.log(`midx: ${board.getMid().midx}, midy: ${board.getMid().midy}`);
+    // window.console.log(`player facing: ${playerOldFacing}, ${playerLocation.facing}`);
 
     board.group.position.x = 0 - playerCube.position.x;
     // if (playerLocation.facing === 'right') {

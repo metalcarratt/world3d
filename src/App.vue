@@ -37,8 +37,9 @@ export default {
     }
   },
   methods: {
-    updateBoard({x, y, brush, orientation}) {
-      board.updateBoard({x, y, brush, orientation});
+    updateBoard({z, x, y, brush, orientation}) {
+      window.console.log(`updateBoard z=${z}`);
+      board.updateBoard({z, x, y, brush, orientation});
     }
   }
 }

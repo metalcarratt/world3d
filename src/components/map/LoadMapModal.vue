@@ -39,20 +39,12 @@ export default {
             return this.selectedWorld === world;
         },
         loadMap() {
+            window.console.log("loadMap");
             if (this.selectedWorld !== '') {
                 const world = mapUtil.loadMap(this.selectedWorld);
-                window.console.log("found " + typeof world);
-                if (Array.isArray(world)) {
-                    window.console.log('found array');
-                    boardUtil.newBoard({
-                        map: world,
-                        name: this.selectedWorld
-                    });
-                } else {
-                    window.console.log('found object');
-                    window.console.log(world);
-                    boardUtil.newBoard(world);
-                }
+                window.console.log('found object');
+                window.console.log(world);
+                boardUtil.newBoard(world);
             }
             this.$emit('close');
         },
