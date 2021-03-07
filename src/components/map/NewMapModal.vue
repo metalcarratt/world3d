@@ -17,8 +17,6 @@
             <select v-model="fill">
                 <option>Grass</option>
                 <option>Water</option>
-                <option>Rock</option>
-                <option>Tree</option>
             </select>
         </fieldset>
         <ModalButton @click="create">Create</ModalButton>
@@ -43,22 +41,27 @@ export default {
         create() {
             window.console.log("create");
             let map=[];
+            map[0]=[];
+            map[1]=[];
             for (let iterY = 0; iterY < this.y; iterY++) {
-                map[iterY] = [];
+                map[0][iterY] = [];
+                map[1][iterY] = [];
                 for (let iterX = 0; iterX < this.x; iterX++) {
                     if (this.base === 'fill') {
                         if (this.fill === 'Water') {
-                            map[iterY][iterX] = 0;
+                            map[0][iterY][iterX] = 1;
                         } else if (this.fill === 'Grass') {
-                            map[iterY][iterX] = 1;
-                        } else if (this.fill === 'Rock') {
-                            map[iterY][iterX] = 2;
-                        } else if (this.fill === 'Tree') {
-                            map[iterY][iterX] = 3;
+                            map[0][iterY][iterX] = 2;
                         }
+                        //  else if (this.fill === 'Rock') {
+                        //     map[iterY][iterX] = 2;
+                        // } else if (this.fill === 'Tree') {
+                        //     map[iterY][iterX] = 3;
+                        // }
                     } else if (this.base === 'random') {
-                        map[iterY][iterX] = Math.floor(Math.random() * 4);
+                        map[0][iterY][iterX] = Math.floor(Math.random() * 4);
                     }
+                    map[1][iterY][iterX] = 0;
                 }
             }
             boardUtil.newBoard({map});

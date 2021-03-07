@@ -11,9 +11,12 @@ import bridgeModel from '@/models/bridge.model';
 import marbleModel from '@/models/marble.model';
 import leavesModel from '@/models/leaves.model';
 import xModel from '@/models/x.model';
+import wall from '@/models/wall.model';
+import wallCorner from '@/models/wall-corner.model';
+import wallWindow from '@/models/wall-window.model';
 
 const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TRUNK = 'Trunk', PLAYER = 'Player', RIVER = 'River', RIVER_BEND = "River Bend",
-    BRIDGE = 'Bridge', MARBLE = 'Marble', LEAVES = "Leaves", X = "X";
+    BRIDGE = 'Bridge', MARBLE = 'Marble', LEAVES = "Leaves", X = "X", WALL = "Wall", WALL_CORNER = "Wall Corner", WALL_WINDOW = "Wall Window";
 
 const models = [
     { id: 0,  name: X,          model: xModel,         passable: false },
@@ -26,11 +29,14 @@ const models = [
     { id: 7,  name: RIVER_BEND, model: riverBendModel, passable: false },
     { id: 8,  name: BRIDGE,     model: bridgeModel,    passable: true },
     { id: 9,  name: MARBLE,     model: marbleModel,    passable: true },
-    { id: 10, name: LEAVES,     model: leavesModel,    passable: true }
+    { id: 10, name: LEAVES,     model: leavesModel,    passable: true },
+    { id: 11, name: WALL,       model: wall,           passable: false },
+    { id: 12, name: WALL_CORNER,model: wallCorner,     passable: false },
+    { id: 13, name: WALL_WINDOW,model: wallWindow,     passable: false }
 ];
 
 export default {
-    allModels: [WATER, GRASS, ROCK, TRUNK, RIVER, RIVER_BEND, BRIDGE, MARBLE, LEAVES],
+    allModels: [WATER, GRASS, ROCK, TRUNK, RIVER, RIVER_BEND, BRIDGE, MARBLE, LEAVES, WALL, WALL_CORNER, WALL_WINDOW],
     specialModels: [PLAYER, X],
     getModelForName: (name) => {
         const model = models.find(m => m.name === name);

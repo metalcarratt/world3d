@@ -5,14 +5,7 @@
             <label>Texture:</label>
             <fieldset>
                 <select  v-model="polygon.texture" >
-                    <option>bark</option>
-                    <option>grass</option>
-                    <option>hair</option>
-                    <option>leaves</option>
-                    <option>rock</option>
-                    <option>skin</option>
-                    <option>water</option>
-                    <option>whiteCloth</option>
+                    <option v-for="texture in textures" :key="texture">{{ texture }}</option>
                 </select>
             </fieldset>
         </span>
@@ -51,6 +44,7 @@
 
 <script>
 import AdjustableInput from '@/components/ui/AdjustableInput.vue';
+import textureUtil from '@/components/map/texture.js';
 
 const translateFromThreeJs = function(coord, length) {
     const base = coord * 100;
@@ -78,6 +72,9 @@ export default {
     },
     mounted() {
         this.updatePolygon()
+    },
+    computed: {
+        textures: () => textureUtil.allTextures
     },
     watch: {
         value: {
