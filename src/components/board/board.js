@@ -66,10 +66,12 @@ const updateBoard = function({x, y, z, brush, orientation}) {
         addZLayer(z);
     }
     window.console.log(map[z]);
-    if (orientation === 'N') {
-        map[z][x][y] = modelUtil.getIdForName(brush);
+
+    let modelId = modelUtil.getIdForName(brush);
+    if (orientation === 'N') {        
+        map[z][x][y] = modelId;
     } else {
-        map[z][x][y] = { orientation, id: modelUtil.getIdForName(brush) };
+        map[z][x][y] = { orientation, id: modelId };
     }
 
     removeCube({x, y, z});
@@ -112,7 +114,7 @@ const drawCube = function({x, y, z}) {
                 cube.rotation.z = 0;
                 break;
         }
-    } else if (typeof key === 'number' && key !== 0) {
+    } else if (key !== 0) {
         cube = modelUtil.mesh(key, true);
     }
     

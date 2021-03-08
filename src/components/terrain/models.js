@@ -1,4 +1,5 @@
 import renderBrush from '@/components/edit/renderBrush.js';
+import terrainUtil from '@/components/terrain/terrain.js';
 
 import waterModel from '@/models/water.model';
 import grassModel from '@/models/grass.model';
@@ -14,6 +15,7 @@ import xModel from '@/models/x.model';
 import wall from '@/models/wall.model';
 import wallCorner from '@/models/wall-corner.model';
 import wallWindow from '@/models/wall-window.model';
+import { Path } from 'three';
 
 const WATER = 'Water', GRASS = 'Grass', ROCK = 'Rock', TRUNK = 'Trunk', PLAYER = 'Player', RIVER = 'River', RIVER_BEND = "River Bend",
     BRIDGE = 'Bridge', MARBLE = 'Marble', LEAVES = "Leaves", X = "X", WALL = "Wall", WALL_CORNER = "Wall Corner", WALL_WINDOW = "Wall Window";
@@ -47,7 +49,14 @@ export default {
         }
         
     },
-    getIdForName: (name) => models.find(m => m.name === name).id,
+    getIdForName: (name) => {
+        const foundModel = models.find(m => m.name === name);
+        if (foundModel) {
+            return models.find(m => m.name === name).id
+        } else {
+            return `user:${name}`;
+        }
+    },
     getNameForId: (id) => models.find(m => m.id === id).name,
     isPassable: (id) => {
         window.console.log("in ispassable");
@@ -56,8 +65,14 @@ export default {
     },
     meshModel: (model, translate = false) => renderBrush.mesh(model, translate),
     mesh(id, translate = false) {
-        const name = this.getNameForId(id);
-        const model = this.getModelForName(name);
+        let model;
+        if (typeof id === 'number') {
+            const name = this.getNameForId(id);
+            model = this.getModelForName(name);
+        } else {
+            const name = id.substring(5);
+            model = terrainUtil.loadTerrain(name).polygon;
+        }
         // window.console.log(model);
         return renderBrush.mesh(model, translate);
     }
